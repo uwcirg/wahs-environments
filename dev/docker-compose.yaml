@@ -1,0 +1,100 @@
+---
+version: "3.7"
+services:
+
+  fhir:
+    image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v5.5.1}
+    environment:
+      SPRING_CONFIG_LOCATION: file:///opt/application.yaml
+      spring.datasource.url: jdbc:postgresql://db:5432/hapifhir
+      spring.datasource.username: hapifhir
+      spring.datasource.password: hapifhir
+      spring.datasource.driverClassName: org.postgresql.Driver
+      spring.jpa.hibernate.dialect: org.hibernate.dialect.PostgreSQL94Dialect
+
+    volumes:
+      - "./config/hapi/application.yaml:/opt/application.yaml:ro"
+    depends_on:
+      - db
+    ports:
+      - "127.0.0.1:${FHIR_EXTERNAL_PORT:-8090}:8080"
+    networks:
+      - internal
+
+  db:
+    image: postgres:${POSTGRES_IMAGE_TAG:-12}
+    environment:
+      POSTGRES_DB: hapifhir
+      POSTGRES_USER: hapifhir
+      POSTGRES_PASSWORD: hapifhir
+    volumes:
+      - source: postgres-data
+        target: /var/lib/postgresql/data
+        type: volume
+    ports:
+      - "127.0.0.1:${PSQL_EXTERNAL_PORT:-15432}:5432"
+    expose:
+      - "5432"
+    networks:
+      - internal
+
+  keycloak:
+    image: jboss/keycloak:${KEYCLOAK_IMAGE_TAG:-15.0.2}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak-${COMPOSE_PROJECT_NAME}.rule=Host(`keycloak.${BASE_DOMAIN:-localtest.me}`)"
+      - "traefik.http.routers.keycloak-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.keycloak-${COMPOSE_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.keycloak-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
+    entrypoint:
+      # override default keycloak docker entrypoint script with our own
+      - /opt/jboss/tools/docker-entrypoint-override.sh
+      - /opt/jboss/tools/docker-entrypoint.sh
+    command:
+      - "-b"
+      - "0.0.0.0"
+      - "-Dkeycloak.migration.action=import"
+      # TODO use dir migration provider (`keycloak.migration.provider=dir`)
+      # https://github.com/keycloak/keycloak-documentation/blob/master/server_admin/topics/export-import.adoc
+      - "-Dkeycloak.migration.provider=singleFile"
+      - "-Dkeycloak.profile.feature.upload_scripts=enabled"
+      - "-Dkeycloak.migration.file=/opt/jboss/keycloak/realm-data.json"
+      - "-Dkeycloak.migration.strategy=IGNORE_EXISTING"
+    environment:
+      KEYCLOAK_FRONTEND_URL: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth"
+      PROXY_ADDRESS_FORWARDING: "true"
+      DB_VENDOR: postgres
+      DB_ADDR: db
+      DB_PORT: 5432
+      DB_DATABASE: keycloak
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      # https://nvd.nist.gov/vuln/detail/CVE-2021-44228
+      LOG4J_FORMAT_MSG_NO_LOOKUPS: "true"
+
+      # environment variables used to configure docker-entrypoint-override.sh
+      __KEYCLOAK_INPUT_CONFIG: /tmp/realm-data.json
+      __KEYCLOAK_OUTPUT_CONFIG: /opt/jboss/keycloak/realm-data.json
+    volumes:
+      - "./config/keycloak/docker-entrypoint-override.sh:/opt/jboss/tools/docker-entrypoint-override.sh:ro"
+      - "./config/keycloak/realm-data.json:/tmp/realm-data.json"
+      - "./config/keycloak/jboss-logging-config.cli:/opt/jboss/startup-scripts/jboss-logging-config.cli"
+    depends_on:
+      - db
+    networks:
+      - ingress
+      - internal
+
+
+networks:
+  # internal network for backing services
+  internal:
+
+  # ingress network
+  ingress:
+    external: true
+    name: external_web
+
+
+volumes:
+    postgres-data: {}
