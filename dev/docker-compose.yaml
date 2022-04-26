@@ -2,6 +2,24 @@
 version: "3.7"
 services:
 
+  asbi:
+    image: ghcr.io/uwcirg/asbi-screening-app:${ASBI_IMAGE_TAG:-latest}
+    env_file:
+      - ./asbi.env
+    depends_on:
+      - keycloak
+      - fhir
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.http.routers.asbi-${COMPOSE_PROJECT_NAME}.rule=Host(`asbi.${BASE_DOMAIN:-localtest.me}`)"
+      - "traefik.http.routers.fhirwall-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.fhirwall-${COMPOSE_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.fhirwall-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
+    networks:
+      - ingress
+      - internal
+
+
   fhir:
     image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v5.5.1}
     environment:

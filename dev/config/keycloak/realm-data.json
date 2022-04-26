@@ -2923,10 +2923,10 @@
         ]
       },
       {
-        "id": "e1e8c399-f31a-436c-8874-33e93759580f",
-        "clientId": "femr_openid_client",
-        "name": "fEMR",
-        "description": "fEMR OIDC client",
+        "id": "f3e8c399-f31a-436c-8874-33e93759583f",
+        "clientId": "asbi_openid_client",
+        "name": "ASBI",
+        "description": "ASBI OIDC client",
         "rootUrl": "",
         "adminUrl": "",
         "baseUrl": "",
@@ -2934,7 +2934,7 @@
         "enabled": true,
         "alwaysDisplayInConsole": false,
         "clientAuthenticatorType": "client-secret",
-        "secret": "${__KEYCLOAK_FEMR_REALM_FEMR_OPENID_CLIENT_SECRET}",
+        "secret": "${__KEYCLOAK_FEMR_REALM_ASBI_OPENID_CLIENT_SECRET}",
         "redirectUris": [
           "*"
         ],
