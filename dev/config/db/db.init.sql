@@ -8,6 +8,7 @@ create database hapifhir;
 
 ---- logserver ----
 create database app_db;
+\connect app_db;
 create schema api;
 create table api.events (
 	id serial primary key,
