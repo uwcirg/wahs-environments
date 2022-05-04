@@ -2252,7 +2252,7 @@
   {
     "id": "femr",
     "realm": "fEMR",
-    "displayName": "COSRI (Clinical Opioid Summary with Rx Integration)",
+    "displayName": "SAFER (SoF ASBI on FEMR)",
     "notBefore": 0,
     "revokeRefreshToken": false,
     "refreshTokenMaxReuse": 0,
@@ -3702,7 +3702,7 @@
       "user": "${__KEYCLOAK_EMAIL_USER}",
       "password": "${__KEYCLOAK_EMAIL_PASSWORD}"
     },
-    "loginTheme": "cosri",
+    "loginTheme": "keycloak",
     "accountTheme": "keycloak",
     "adminTheme": "keycloak",
     "emailTheme": "keycloak",
