@@ -60,6 +60,10 @@ services:
       spring.datasource.password: postgres
       spring.datasource.driverClassName: org.postgresql.Driver
       spring.jpa.hibernate.dialect: org.hibernate.dialect.PostgreSQL94Dialect
+
+      # make URLs relative to fEMR for pagination
+      # TODO remove when fEMR can rewrite URLs
+      hapi.fhir.server_address: 'https://femr.${BASE_DOMAIN:-localtest.me}/fhir/'
     volumes:
       - "./config/hapi/application.yaml:/opt/application.yaml:ro"
     depends_on:
