@@ -167,7 +167,7 @@ services:
     depends_on:
       - fhir
     labels:
-      - "traefik.enabled=true"
+      - "traefik.enable=true"
       - "traefik.http.routers.screener-${COMPOSE_PROJECT_NAME}.rule=Host(`screener.${BASE_DOMAIN:-localtest.me}`)"
       - "traefik.http.routers.screener-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
       - "traefik.http.routers.screener-${COMPOSE_PROJECT_NAME}.tls=true"
