@@ -1,20 +1,51 @@
 ---
 version: "3.7"
 services:
+  db:
+    image: postgres:${POSTGRES_IMAGE_TAG:-12}
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+      # mount db creation script in place for bootstrap
+      - "./config/db:/docker-entrypoint-initdb.d"
+    networks:
+      - internal
 
-  asbi:
-    image: ghcr.io/uwcirg/asbi-screening-app:${ASBI_IMAGE_TAG:-latest}
+
+  femr:
+    image: uwcirg/cosri-patientsearch:${FEMR_IMAGE_TAG:-develop}
     env_file:
-      - ./asbi.env
+      femr.env
+    environment:
+      OIDC_AUTHORIZE_URL: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR/protocol/openid-connect/auth"
+      OIDC_CLIENT_ID: femr_openid_client
+      OIDC_ISSUER: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR"
+      OIDC_REDIRECT_URIS: "https://keycloak.${BASE_DOMAIN:-localtest.me}/oidc_callback"
+      OIDC_USERINFO_URI: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR/protocol/openid-connect/userinfo"
+      OIDC_TOKEN_URI: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR/protocol/openid-connect/token"
+      OIDC_TOKEN_INTROSPECTION_URI: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR/protocol/openid-connect/token/introspect"
+      # TODO change to INTERNAL_FHIR_API
+      # TODO switch to external API (requiring auth)
+      MAP_API: "http://fhir-internal:8080/fhir/"
+      # FHIR URL passed to SoF client
+      SOF_HOST_FHIR_URL: 'https://fhirwall.${BASE_DOMAIN:-localtest.me}/fhir'
+      SOF_CLIENT_LAUNCH_URL: 'https://screener.${BASE_DOMAIN:-localtest.me}/launch.html'
+      LOGSERVER_URL: "https://logs.${BASE_DOMAIN:-localtest.me}"
+      REDIS_URL: redis://redis:6379/1
     depends_on:
+      - fhirwall
       - keycloak
-      - fhir
+      - logs
+      - redis
+      - screener
     labels:
-      - "traefik.enabled=true"
-      - "traefik.http.routers.asbi-${COMPOSE_PROJECT_NAME}.rule=Host(`asbi.${BASE_DOMAIN:-localtest.me}`)"
-      - "traefik.http.routers.fhirwall-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
-      - "traefik.http.routers.fhirwall-${COMPOSE_PROJECT_NAME}.tls=true"
-      - "traefik.http.routers.fhirwall-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
+      - "traefik.enable=true"
+      - "traefik.http.routers.femr-${COMPOSE_PROJECT_NAME}.rule=Host(`femr.${BASE_DOMAIN:-localtest.me}`)"
+      - "traefik.http.routers.femr-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.femr-${COMPOSE_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.femr-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
     networks:
       - ingress
       - internal
@@ -25,36 +56,38 @@ services:
     environment:
       SPRING_CONFIG_LOCATION: file:///opt/application.yaml
       spring.datasource.url: jdbc:postgresql://db:5432/hapifhir
-      spring.datasource.username: hapifhir
-      spring.datasource.password: hapifhir
+      spring.datasource.username: postgres
+      spring.datasource.password: postgres
       spring.datasource.driverClassName: org.postgresql.Driver
       spring.jpa.hibernate.dialect: org.hibernate.dialect.PostgreSQL94Dialect
-
     volumes:
       - "./config/hapi/application.yaml:/opt/application.yaml:ro"
     depends_on:
       - db
-    ports:
-      - "127.0.0.1:${FHIR_EXTERNAL_PORT:-8090}:8080"
     networks:
+      internal:
+        aliases:
+          - fhir-internal
+
+
+  fhirwall:
+    image: ghcr.io/uwcirg/jwt-proxy:${PROXY_IMAGE_TAG:-latest}
+    environment:
+      UPSTREAM_SERVER: "http://fhir-internal:8080"
+      JWKS_URL: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR/protocol/openid-connect/certs"
+      PATH_WHITELIST: /fhir/metadata
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fhirwall-${COMPOSE_PROJECT_NAME}.rule=Host(`fhirwall.${BASE_DOMAIN:-localtest.me}`)"
+      - "traefik.http.routers.fhirwall-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.fhirwall-${COMPOSE_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.fhirwall-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
+    depends_on:
+      - fhir
+    networks:
+      - ingress
       - internal
 
-  db:
-    image: postgres:${POSTGRES_IMAGE_TAG:-12}
-    environment:
-      POSTGRES_DB: hapifhir
-      POSTGRES_USER: hapifhir
-      POSTGRES_PASSWORD: hapifhir
-    volumes:
-      - source: postgres-data
-        target: /var/lib/postgresql/data
-        type: volume
-    ports:
-      - "127.0.0.1:${PSQL_EXTERNAL_PORT:-15432}:5432"
-    expose:
-      - "5432"
-    networks:
-      - internal
 
   keycloak:
     image: jboss/keycloak:${KEYCLOAK_IMAGE_TAG:-15.0.2}
@@ -93,15 +126,58 @@ services:
       # environment variables used to configure docker-entrypoint-override.sh
       __KEYCLOAK_INPUT_CONFIG: /tmp/realm-data.json
       __KEYCLOAK_OUTPUT_CONFIG: /opt/jboss/keycloak/realm-data.json
+    env_file:
+      - keycloak.env
     volumes:
       - "./config/keycloak/docker-entrypoint-override.sh:/opt/jboss/tools/docker-entrypoint-override.sh:ro"
       - "./config/keycloak/realm-data.json:/tmp/realm-data.json"
+      - "./config/keycloak/cosri-keycloak-theme:/opt/jboss/keycloak/themes/cosri"
       - "./config/keycloak/jboss-logging-config.cli:/opt/jboss/startup-scripts/jboss-logging-config.cli"
     depends_on:
       - db
     networks:
       - ingress
       - internal
+
+
+  logs:
+    image: postgrest/postgrest
+    environment:
+      PGRST_DB_URI: postgres://postgres:postgres@db:5432/app_db
+      PGRST_DB_SCHEMA: api
+      PGRST_DB_ANON_ROLE: web_anon
+    env_file:
+      - logs.env
+    depends_on:
+      - db
+    networks:
+      - internal
+
+
+  redis:
+    image: redis
+    networks:
+      - internal
+
+
+  screener:
+    image: ghcr.io/uwcirg/asbi-screening-app:${SCREENER_IMAGE_TAG:-latest}
+    env_file:
+      - screener.env
+    depends_on:
+      - fhir
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.http.routers.screener-${COMPOSE_PROJECT_NAME}.rule=Host(`screener.${BASE_DOMAIN:-localtest.me}`)"
+      - "traefik.http.routers.screener-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.screener-${COMPOSE_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.screener-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
+    networks:
+      - ingress
+
+
+volumes:
+  db-data: {}
 
 
 networks:
@@ -112,7 +188,3 @@ networks:
   ingress:
     external: true
     name: external_web
-
-
-volumes:
-    postgres-data: {}

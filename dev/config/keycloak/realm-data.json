@@ -2252,7 +2252,7 @@
   {
     "id": "femr",
     "realm": "fEMR",
-    "displayName": "SAFER (SoF ASBI on FEMR)",
+    "displayName": "COSRI (Clinical Opioid Summary with Rx Integration)",
     "notBefore": 0,
     "revokeRefreshToken": false,
     "refreshTokenMaxReuse": 0,
@@ -2847,14 +2847,14 @@
       },
       {
         "id": "fe6ccba2-7bef-47db-8ca7-32b916dcdd8a",
-        "clientId": "safer_openid_client",
-        "name": "SAFER",
-        "description": "SAFER SoF client app",
+        "clientId": "cosri_openid_client",
+        "name": "Cosri",
+        "description": "Cosri SoF client app",
         "surrogateAuthRequired": false,
         "enabled": true,
         "alwaysDisplayInConsole": false,
         "clientAuthenticatorType": "client-secret",
-        "secret": "${__KEYCLOAK_FEMR_REALM_SAFER_OPENID_CLIENT_SECRET}",
+        "secret": "${__KEYCLOAK_FEMR_REALM_COSRI_OPENID_CLIENT_SECRET}",
         "redirectUris": [
           "*"
         ],
@@ -2923,10 +2923,10 @@
         ]
       },
       {
-        "id": "f3e8c399-f31a-436c-8874-33e93759583f",
-        "clientId": "asbi_openid_client",
-        "name": "ASBI",
-        "description": "ASBI OIDC client",
+        "id": "e1e8c399-f31a-436c-8874-33e93759580f",
+        "clientId": "femr_openid_client",
+        "name": "fEMR",
+        "description": "fEMR OIDC client",
         "rootUrl": "",
         "adminUrl": "",
         "baseUrl": "",
@@ -2934,7 +2934,7 @@
         "enabled": true,
         "alwaysDisplayInConsole": false,
         "clientAuthenticatorType": "client-secret",
-        "secret": "${__KEYCLOAK_FEMR_REALM_ASBI_OPENID_CLIENT_SECRET}",
+        "secret": "${__KEYCLOAK_FEMR_REALM_FEMR_OPENID_CLIENT_SECRET}",
         "redirectUris": [
           "*"
         ],
@@ -3696,12 +3696,13 @@
       "ssl": "",
       "port": "587",
       "host": "mail.cirg.washington.edu",
-      "replyTo": "cirg-adm@uw.edu",
+      "replyTo": "help@cosri.on.spiceworks.com",
       "from": "noreply@cirg.washington.edu",
-      "fromDisplayName": "SAFER Support",
+      "fromDisplayName": "Cosri Support",
       "user": "${__KEYCLOAK_EMAIL_USER}",
       "password": "${__KEYCLOAK_EMAIL_PASSWORD}"
     },
+    "loginTheme": "cosri",
     "accountTheme": "keycloak",
     "adminTheme": "keycloak",
     "emailTheme": "keycloak",
