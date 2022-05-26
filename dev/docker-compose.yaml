@@ -79,7 +79,7 @@ services:
     environment:
       UPSTREAM_SERVER: "http://fhir-internal:8080"
       JWKS_URL: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR/protocol/openid-connect/certs"
-      PATH_WHITELIST: /fhir/metadata
+      PATH_WHITELIST: /fhir/metadata,/fhir/.well-known/smart-configuration
     labels:
       - "traefik.enable=true"
 
