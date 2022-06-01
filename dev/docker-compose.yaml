@@ -76,7 +76,12 @@ services:
 
   fhirwall:
     image: ghcr.io/uwcirg/jwt-proxy:${PROXY_IMAGE_TAG:-latest}
+    env_file:
+      fhirwall.env
     environment:
+      OIDC_AUTHORIZE_URL: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR/protocol/openid-connect/auth"
+      OIDC_TOKEN_URI: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR/protocol/openid-connect/token"
+      OIDC_TOKEN_INTROSPECTION_URI: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR/protocol/openid-connect/token/introspect"
       UPSTREAM_SERVER: "http://fhir-internal:8080"
       JWKS_URL: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR/protocol/openid-connect/certs"
       PATH_WHITELIST: /fhir/metadata,/fhir/.well-known/smart-configuration
