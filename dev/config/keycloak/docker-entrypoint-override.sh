@@ -37,12 +37,8 @@ update_config() {
     done
 }
 
-
 cp "${__KEYCLOAK_INPUT_CONFIG}" "${__KEYCLOAK_OUTPUT_CONFIG}"
 update_config "${__KEYCLOAK_OUTPUT_CONFIG}"
-echo "QQQ1"
-cat "${__KEYCLOAK_OUTPUT_CONFIG}"
-echo "QQQ1"
 
 echo $cmdname complete
 echo executing given command $@
