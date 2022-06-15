@@ -40,7 +40,6 @@ update_config() {
 cp "${__KEYCLOAK_INPUT_CONFIG}" "${__KEYCLOAK_OUTPUT_CONFIG}"
 update_config "${__KEYCLOAK_OUTPUT_CONFIG}"
 
-
 echo $cmdname complete
 echo executing given command $@
 exec "$@"
