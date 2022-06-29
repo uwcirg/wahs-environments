@@ -1,5 +1,5 @@
 # Development Configuration
-Sets up a copy of SAFER (SoF ASBI on FEMR) environments, for development
+Sets up a development copy of Dementia Electronic Module (DEM) environments
 
 
 ## Setup

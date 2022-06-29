@@ -3698,7 +3698,7 @@
       "host": "mail.cirg.washington.edu",
       "replyTo": "support@cirg.washington.edu",
       "from": "noreply@cirg.washington.edu",
-      "fromDisplayName": "SAFER Support",
+      "fromDisplayName": "DEM Support",
       "user": "${__KEYCLOAK_EMAIL_USER}",
       "password": "${__KEYCLOAK_EMAIL_PASSWORD}"
     },

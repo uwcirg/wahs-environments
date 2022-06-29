@@ -19,7 +19,7 @@ services:
     env_file:
       femr.env
     environment:
-      APPLICATION_TITLE: "SAFER"
+      APPLICATION_TITLE: "DEM"
       OIDC_AUTHORIZE_URL: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR/protocol/openid-connect/auth"
       OIDC_CLIENT_ID: femr_openid_client
       OIDC_ISSUER: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR"

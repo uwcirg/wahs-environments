@@ -1,5 +1,5 @@
-# SAFER Environments
-Configuration for SAFER (SoF ASBI on FEMR) services.
+# DEM Environments
+Configuration for Dementia Electronic Module (DEM) services.
 
 
 ## Setup
