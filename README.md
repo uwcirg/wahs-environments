@@ -1,6 +1,4 @@
-# DEM Environments
-Configuration for Dementia Electronic Module (DEM) services.
-
+# DeM Environments
 DeM is the dementia education module.
 Assessments are entered by providers and consist of six screening tools assessing
 and occasionally scoring different domains:
