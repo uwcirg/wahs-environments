@@ -2,9 +2,12 @@
 DeM is the dementia education module.
 Assessments are entered by providers and consist of six screening tools assessing
 and occasionally scoring different domains:
-- Cognitive
-- Social
-- Determinants
+- Cognition
+- Mood, Behavior
+- Medical Problems
+- Care Partner Needs
+- Social Determinants
+- Health Systems
 
 A separate app displays longitudinal sessions and conditionally displays provider
 recommendations based on scores in different domains.
