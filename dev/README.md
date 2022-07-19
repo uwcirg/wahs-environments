@@ -1,5 +1,5 @@
 # Development Configuration
-Sets up a development copy of Dementia Electronic Module (DEM) environments
+Sets up a development copy of Hello World (SoF) environments
 
 
 ## Setup

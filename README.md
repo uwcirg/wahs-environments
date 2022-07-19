@@ -1,16 +1,9 @@
-# DeM Environments
-DeM is the dementia education module.
-Assessments are entered by providers and consist of six screening tools assessing
-and occasionally scoring different domains:
-- Cognition
-- Mood, Behavior
-- Medical Problems
-- Care Partner Needs
-- Social Determinants
-- Health Systems
+# Hello World Environments
+Template, "Hello World" environments, generates a full stack functional
+project adhering (as closely as possible) to the SMART on FHIR (SoF)
+protocol.
 
-A separate app displays longitudinal sessions and conditionally displays provider
-recommendations based on scores in different domains.
+Intent combines a proof of concept with a functional demonstration of authentication, FHIR persistence and multiple SoF client types and interactions.
 
 ## Product Elements
 - fEMR
@@ -21,9 +14,8 @@ recommendations based on scores in different domains.
   - [PostgreSQL](https://postgrest.org/en/stable/)
   - [Redis](https://redis.io/)
 - [Log Server](https://github.com/uwcirg/logserver)
-- [Screener](https://github.com/uwcirg/asbi-screening-app)
-  - Note:  details of the assessment remain a bit TBD - how to architect and link the six instruments, and the fact that Tatiana told Siece they were not properly called "screeners" (which I may have misunderstood, and which I misunderstood in the opposite direction from Emily!)
-  - in the interim, we can continue to use the current asbi-screening-app
+- [Public SoF Client](https://github.com/uwcirg/helloworld-react-client-sof)
+- [Confidential SoF Client](https://github.com/uwcirg/helloworld-confidential-backend-sof)
 
 ## Setup
-Clone this repo to your desired location and follow Setup steps in [`dev`](./dev/README.md), to setup a development deploy, or [`prod`](./prod/README.md) for a production deploy.
+Clone this repo to your desired location and follow Setup steps in [`dev`](./dev/README.md), to setup a development deploy.
