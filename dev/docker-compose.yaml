@@ -19,7 +19,7 @@ services:
     env_file:
       femr.env
     environment:
-      APPLICATION_TITLE: "DEM"
+      APPLICATION_TITLE: "HelloWorld"
       OIDC_AUTHORIZE_URL: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR/protocol/openid-connect/auth"
       OIDC_CLIENT_ID: femr_openid_client
       OIDC_ISSUER: "https://keycloak.${BASE_DOMAIN:-localtest.me}/auth/realms/fEMR"
@@ -32,7 +32,7 @@ services:
       MAP_API: "http://fhir-internal:8080/fhir/"
       # FHIR URL passed to SoF client
       SOF_HOST_FHIR_URL: 'https://fhirwall.${BASE_DOMAIN:-localtest.me}/fhir'
-      SOF_CLIENTS: '[{"id":"SCREENER", "label":"Launch", "launch_url":"https://screener.${BASE_DOMAIN:-localtest.me}/launch.html", "required_roles": ["clinician"]}]'
+      SOF_CLIENTS: '[{"id":"PUBCLIENT", "label":"Public Client Launch", "launch_url":"https://pubclient.${BASE_DOMAIN:-localtest.me}/launch.html"}]'
       LOGSERVER_URL: "https://logs.${BASE_DOMAIN:-localtest.me}"
       REDIS_URL: redis://redis:6379/1
     depends_on:
@@ -40,7 +40,7 @@ services:
       - keycloak
       - logs
       - redis
-      - screener
+      - pubclient
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.femr-${COMPOSE_PROJECT_NAME}.rule=Host(`femr.${BASE_DOMAIN:-localtest.me}`)"
@@ -65,11 +65,19 @@ services:
       # make URLs relative to fEMR for pagination
       # TODO remove when fEMR can rewrite URLs
       hapi.fhir.server_address: 'https://femr.${BASE_DOMAIN:-localtest.me}/fhir/'
+    # expose HAPI to internet - remove entire `labels` section if unwanted
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.rule=Host(`fhir.${BASE_DOMAIN:-localtest.me}`)"
+      - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
     volumes:
       - "./config/hapi/application.yaml:/opt/application.yaml:ro"
     depends_on:
       - db
     networks:
+      ingress:
       internal:
         aliases:
           - fhir-internal
@@ -184,18 +192,19 @@ services:
       - internal
 
 
-  screener:
-    image: ghcr.io/uwcirg/asbi-screening-app:${SCREENER_IMAGE_TAG:-latest}
+  pubclient:
+    image: ghcr.io/uwcirg/helloworld-react-client-sof:${PUBCLIENT_IMAGE_TAG:-latest}
+    #image: containous/whoami
     env_file:
-      - screener.env
+      - pubclient.env
     depends_on:
       - fhir
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.screener-${COMPOSE_PROJECT_NAME}.rule=Host(`screener.${BASE_DOMAIN:-localtest.me}`)"
-      - "traefik.http.routers.screener-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
-      - "traefik.http.routers.screener-${COMPOSE_PROJECT_NAME}.tls=true"
-      - "traefik.http.routers.screener-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.pubclient${COMPOSE_PROJECT_NAME}.rule=Host(`pubclient.${BASE_DOMAIN:-localtest.me}`)"
+      - "traefik.http.routers.pubclient${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.pubclient${COMPOSE_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.pubclient${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
     networks:
       - ingress
 

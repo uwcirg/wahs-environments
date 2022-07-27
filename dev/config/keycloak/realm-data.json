@@ -2847,14 +2847,14 @@
       },
       {
         "id": "fe6ccba2-7bef-47db-8ca7-32b916dcdd8a",
-        "clientId": "screener_openid_client",
-        "name": "Screener",
-        "description": "Screener SoF client app",
+        "clientId": "pubclient_openid_client",
+        "name": "Public Client",
+        "description": "Public Client SoF client app",
         "surrogateAuthRequired": false,
         "enabled": true,
         "alwaysDisplayInConsole": false,
         "clientAuthenticatorType": "client-secret",
-        "secret": "${__KEYCLOAK_FEMR_REALM_SCREENER_OPENID_CLIENT_SECRET}",
+        "secret": "${__KEYCLOAK_FEMR_REALM_PUBCLIENT_OPENID_CLIENT_SECRET}",
         "redirectUris": [
           "*"
         ],
@@ -3698,7 +3698,7 @@
       "host": "mail.cirg.washington.edu",
       "replyTo": "support@cirg.washington.edu",
       "from": "noreply@cirg.washington.edu",
-      "fromDisplayName": "DEM Support",
+      "fromDisplayName": "CIRG Support",
       "user": "${__KEYCLOAK_EMAIL_USER}",
       "password": "${__KEYCLOAK_EMAIL_PASSWORD}"
     },
