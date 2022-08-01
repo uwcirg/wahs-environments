@@ -32,7 +32,7 @@ services:
       MAP_API: "http://fhir-internal:8080/fhir/"
       # FHIR URL passed to SoF client
       SOF_HOST_FHIR_URL: 'https://fhirwall.${BASE_DOMAIN:-localtest.me}/fhir'
-      SOF_CLIENTS: '[{"id":"PUBCLIENT", "label":"Public Client Launch", "launch_url":"https://pubclient.${BASE_DOMAIN:-localtest.me}/launch.html"}]'
+      SOF_CLIENTS: '[{"id":"PUBCLIENT", "label":"React Client", "launch_url":"https://pubclient.${BASE_DOMAIN:-localtest.me}/launch.html"},{"id":"VUECLIENT", "label":"Vue Client", "launch_url":"https://vueclient.${BASE_DOMAIN:-localtest.me}/launch.html", "required_roles": ["clinician"]}]'
       LOGSERVER_URL: "https://logs.${BASE_DOMAIN:-localtest.me}"
       REDIS_URL: redis://redis:6379/1
     depends_on:
@@ -41,6 +41,7 @@ services:
       - logs
       - redis
       - pubclient
+      - vueclient
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.femr-${COMPOSE_PROJECT_NAME}.rule=Host(`femr.${BASE_DOMAIN:-localtest.me}`)"
@@ -194,7 +195,6 @@ services:
 
   pubclient:
     image: ghcr.io/uwcirg/helloworld-react-client-sof:${PUBCLIENT_IMAGE_TAG:-latest}
-    #image: containous/whoami
     env_file:
       - pubclient.env
     depends_on:
@@ -208,6 +208,20 @@ services:
     networks:
       - ingress
 
+  vueclient:
+    image: ghcr.io/uwcirg/helloworld-vue-client-sof:${VUECLIENT_IMAGE_TAG:-latest}
+    env_file:
+      - vueclient.env
+    depends_on:
+      - fhir
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.vueclient${COMPOSE_PROJECT_NAME}.rule=Host(`vueclient.${BASE_DOMAIN:-localtest.me}`)"
+      - "traefik.http.routers.vueclient${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.vueclient${COMPOSE_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.vueclient${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
+    networks:
+      - ingress
 
 volumes:
   db-data: {}
