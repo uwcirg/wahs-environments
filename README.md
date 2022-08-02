@@ -14,8 +14,8 @@ Intent combines a proof of concept with a functional demonstration of authentica
   - [PostgreSQL](https://postgrest.org/en/stable/)
   - [Redis](https://redis.io/)
 - [Log Server](https://github.com/uwcirg/logserver)
-- [Public SoF Client](https://github.com/uwcirg/helloworld-react-client-sof)
-- [Confidential SoF Client](https://github.com/uwcirg/helloworld-confidential-backend-sof)
+- [Public SoF React Client](https://github.com/uwcirg/helloworld-react-client-sof)
+- [Public SoF Vue Client](https://github.com/uwcirg/helloworld-vue-client-sof)
 
 ## Setup
 Clone this repo to your desired location and follow Setup steps in [`dev`](./dev/README.md), to setup a development deploy.
