@@ -216,10 +216,10 @@ services:
       - fhir
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.vueclient${COMPOSE_PROJECT_NAME}.rule=Host(`vueclient.${BASE_DOMAIN:-localtest.me}`)"
-      - "traefik.http.routers.vueclient${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
-      - "traefik.http.routers.vueclient${COMPOSE_PROJECT_NAME}.tls=true"
-      - "traefik.http.routers.vueclient${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.vueclient-${COMPOSE_PROJECT_NAME}.rule=Host(`vueclient.${BASE_DOMAIN:-localtest.me}`)"
+      - "traefik.http.routers.vueclient-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.vueclient-${COMPOSE_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.vueclient-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
     networks:
       - ingress
 
