@@ -126,6 +126,14 @@
           "clientRole": false,
           "containerId": "master",
           "attributes": {}
+        },
+        {
+          "id": "08b6f5d4-889e-43f2-b458-7d09832f6340",
+          "name": "clinician",
+          "composite": false,
+          "clientRole": false,
+          "containerId": "femr",
+          "attributes": {}
         }
       ],
       "client": {
@@ -2636,7 +2644,6 @@
     "users": [
       {
         "id": "794d2782-e783-4cbb-ae72-b165a4c06e7f",
-        "attributes": {"DEA": "testDEAvalue"},
         "createdTimestamp": 1584919351977,
         "username": "test",
         "enabled": true,
@@ -2653,7 +2660,7 @@
         ],
         "disableableCredentialTypes": [],
         "requiredActions": [],
-        "realmRoles": ["uma_authorization", "offline_access"],
+        "realmRoles": ["uma_authorization", "offline_access", "clinician"],
         "clientRoles": {
           "account": ["manage-account", "view-profile"]
         },
@@ -2847,14 +2854,14 @@
       },
       {
         "id": "fe6ccba2-7bef-47db-8ca7-32b916dcdd8a",
-        "clientId": "screener_openid_client",
-        "name": "Screener",
-        "description": "Screener SoF client app",
+        "clientId": "hello_world_client",
+        "name": "Public Client",
+        "description": "Public Client SoF client app",
         "surrogateAuthRequired": false,
         "enabled": true,
         "alwaysDisplayInConsole": false,
         "clientAuthenticatorType": "client-secret",
-        "secret": "${__KEYCLOAK_FEMR_REALM_SCREENER_OPENID_CLIENT_SECRET}",
+        "secret": "${__KEYCLOAK_FEMR_REALM_PUBCLIENT_OPENID_CLIENT_SECRET}",
         "redirectUris": [
           "*"
         ],
@@ -2868,21 +2875,30 @@
         "implicitFlowEnabled": false,
         "directAccessGrantsEnabled": true,
         "serviceAccountsEnabled": false,
-        "publicClient": false,
+        "publicClient": true,
         "frontchannelLogout": false,
         "protocol": "openid-connect",
         "attributes": {
           "saml.assertion.signature": "false",
+          "id.token.as.detached.signature": "false",
           "saml.force.post.binding": "false",
           "saml.multivalued.roles": "false",
           "saml.encrypt": "false",
           "login_theme": "base",
+          "oauth2.device.authorization.grant.enabled": "false",
           "saml.server.signature": "false",
           "saml.server.signature.keyinfo.ext": "false",
+          "use.refresh.tokens": "true",
           "exclude.session.state.from.auth.response": "false",
+          "oidc.ciba.grant.enabled": "false",
+          "saml.artifact.binding": "false",
+          "backchannel.logout.session.required": "false",
+          "client_credentials.use_refresh_token": "false",
           "saml_force_name_id_format": "false",
           "saml.client.signature": "false",
+          "backchannel.logout.revoke.offline.tokens": "false",
           "tls.client.certificate.bound.access.tokens": "false",
+          "require.pushed.authorization.requests": "false",
           "saml.authnstatement": "false",
           "display.on.consent.screen": "false",
           "saml.onetimeuse.condition": "false"
@@ -2890,23 +2906,75 @@
         "authenticationFlowBindingOverrides": {},
         "fullScopeAllowed": true,
         "nodeReRegistrationTimeout": -1,
-        "protocolMappers": [
-          {
-            "id": "ce38c2d5-0c80-4943-a370-eb5f95c4b67d",
-            "name": "DEA",
-            "protocol": "openid-connect",
-            "protocolMapper": "oidc-usermodel-attribute-mapper",
-            "consentRequired": false,
-            "config": {
-              "userinfo.token.claim": "true",
-              "user.attribute": "DEA",
-              "id.token.claim": "true",
-              "access.token.claim": "true",
-              "claim.name": "DEA",
-              "jsonType.label": "String"
-            }
-          }
+        "defaultClientScopes": [
+          "patient/*.read",
+          "launch",
+          "web-origins",
+          "roles",
+          "profile",
+          "email"
         ],
+        "optionalClientScopes": [
+          "address",
+          "phone",
+          "offline_access",
+          "microprofile-jwt"
+        ]
+      },
+      {
+        "id": "442354b5-a98c-4938-b62f-6333dc82435b",
+        "clientId": "screener_openid_client",
+        "name": "Public Vue Client",
+        "description": "Public Client SoF Vue client app",
+        "surrogateAuthRequired": false,
+        "enabled": true,
+        "alwaysDisplayInConsole": false,
+        "clientAuthenticatorType": "client-secret",
+        "secret": "${__KEYCLOAK_FEMR_REALM_VUECLIENT_OPENID_CLIENT_SECRET}",
+        "redirectUris": [
+          "*"
+        ],
+        "webOrigins": [
+          "*"
+        ],
+        "notBefore": 0,
+        "bearerOnly": false,
+        "consentRequired": false,
+        "standardFlowEnabled": true,
+        "implicitFlowEnabled": false,
+        "directAccessGrantsEnabled": true,
+        "serviceAccountsEnabled": false,
+        "publicClient": true,
+        "frontchannelLogout": false,
+        "protocol": "openid-connect",
+        "attributes": {
+          "saml.assertion.signature": "false",
+          "id.token.as.detached.signature": "false",
+          "saml.force.post.binding": "false",
+          "saml.multivalued.roles": "false",
+          "saml.encrypt": "false",
+          "login_theme": "base",
+          "oauth2.device.authorization.grant.enabled": "false",
+          "saml.server.signature": "false",
+          "saml.server.signature.keyinfo.ext": "false",
+          "use.refresh.tokens": "true",
+          "exclude.session.state.from.auth.response": "false",
+          "oidc.ciba.grant.enabled": "false",
+          "saml.artifact.binding": "false",
+          "backchannel.logout.session.required": "false",
+          "client_credentials.use_refresh_token": "false",
+          "saml_force_name_id_format": "false",
+          "saml.client.signature": "false",
+          "backchannel.logout.revoke.offline.tokens": "false",
+          "tls.client.certificate.bound.access.tokens": "false",
+          "require.pushed.authorization.requests": "false",
+          "saml.authnstatement": "false",
+          "display.on.consent.screen": "false",
+          "saml.onetimeuse.condition": "false"
+        },
+        "authenticationFlowBindingOverrides": {},
+        "fullScopeAllowed": true,
+        "nodeReRegistrationTimeout": -1,
         "defaultClientScopes": [
           "patient/*.read",
           "launch",
@@ -3698,7 +3766,7 @@
       "host": "mail.cirg.washington.edu",
       "replyTo": "support@cirg.washington.edu",
       "from": "noreply@cirg.washington.edu",
-      "fromDisplayName": "DEM Support",
+      "fromDisplayName": "CIRG Support",
       "user": "${__KEYCLOAK_EMAIL_USER}",
       "password": "${__KEYCLOAK_EMAIL_PASSWORD}"
     },
