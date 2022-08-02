@@ -3,6 +3,11 @@ Sets up a development copy of Hello World (SoF) environments
 
 
 ## Setup
+Copy the default env files:
+
+    for file in *.default; do
+        cp "$file" "${file%%.default}"
+    done
 Copy the `.env` file default:
 
     cp default.env .env
