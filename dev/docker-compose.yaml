@@ -201,10 +201,10 @@ services:
       - fhir
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.pubclient${COMPOSE_PROJECT_NAME}.rule=Host(`pubclient.${BASE_DOMAIN:-localtest.me}`)"
-      - "traefik.http.routers.pubclient${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
-      - "traefik.http.routers.pubclient${COMPOSE_PROJECT_NAME}.tls=true"
-      - "traefik.http.routers.pubclient${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.pubclient-${COMPOSE_PROJECT_NAME}.rule=Host(`pubclient.${BASE_DOMAIN:-localtest.me}`)"
+      - "traefik.http.routers.pubclient-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.pubclient-${COMPOSE_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.pubclient-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
     networks:
       - ingress
 
