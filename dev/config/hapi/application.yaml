@@ -24,6 +24,8 @@ spring:
     allow-bean-definition-overriding: true
 hapi:
   fhir:
+    ### This enables the swagger-ui at /fhir/swagger-ui/index.html as well as the /fhir/api-docs (see https://hapifhir.io/hapi-fhir/docs/server_plain/openapi.html)
+    openapi_enabled: true
     ### This is the FHIR version. Choose between, DSTU2, DSTU3, R4 or R5
     fhir_version: R4
 ### enable to use the ApacheProxyAddressStrategy which uses X-Forwarded-* headers
@@ -36,19 +38,19 @@ hapi:
 #    server_address: http://hapi.fhir.org/baseR4
 #    defer_indexing_for_codesystems_of_size: 101
 #    install_transitive_ig_dependencies: true
-#    implementationguides:
-###    example from registry (packages.fhir.org)
-#      swiss:
-#        name: swiss.mednet.fhir
-#        version: 0.8.0
-#      example not from registry
-#      ips_1_0_0:
-#        url: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
-#        name: hl7.fhir.uv.ips
-#        version: 1.0.0
-#    supported_resource_types:
-#      - Patient
-#      - Observation
+    implementationguides:
+##    example from registry (packages.fhir.org)
+    #  swiss:
+    #    name: swiss.mednet.fhir
+    #    version: 0.8.0
+    #  example not from registry
+     ips_1_1_0:
+       url: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
+       name: hl7.fhir.uv.ips
+       version: 1.1.0
+  #  supported_resource_types:
+  #    - Patient
+  #    - Observation
 #    allow_cascading_deletes: true
 #    allow_contains_searches: true
 #    allow_external_references: true
@@ -56,6 +58,7 @@ hapi:
 #    allow_override_default_search_params: true
 #    auto_create_placeholder_reference_targets: false
 #    cql_enabled: true
+    ips_enabled: true
 #    default_encoding: JSON
 #    default_pretty_print: true
 #    default_page_size: 20
@@ -63,6 +66,8 @@ hapi:
 #    enable_repository_validating_interceptor: false
 #    enable_index_missing_fields: false
 #    enable_index_contained_resource: false
+    bulk_export_enabled: true
+    bulk_import_enabled: true
     enforce_referential_integrity_on_delete: false
     enforce_referential_integrity_on_write: false
 #    etag_support_enabled: true
@@ -72,7 +77,7 @@ hapi:
 #    fhirpath_interceptor_enabled: false
 #    filter_search_enabled: true
 #    graphql_enabled: true
-#    narrative_enabled: true
+    narrative_enabled: true
 #    mdm_enabled: true
 #    partitioning:
 #      allow_references_across_partitions: false
