@@ -14,7 +14,7 @@ services:
       - internal
 
   fhir:
-    image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v6.6.0}
+    image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v7.0.3}
     environment:
       SPRING_CONFIG_LOCATION: file:///opt/application.yaml
       spring.datasource.url: jdbc:postgresql://db:5432/hapifhir
