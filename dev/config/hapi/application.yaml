@@ -98,10 +98,10 @@ hapi:
     #    reloadExisting: false
     #    installMode: STORE_AND_INSTALL
     #      example not from registry
-    ips_1_1_0:
-      packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
-      name: hl7.fhir.uv.ips
-      version: 1.1.0
+      ips_1_1_0:
+        packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
+        name: hl7.fhir.uv.ips
+        version: 1.1.0
     #    supported_resource_types:
     #      - Patient
     #      - Observation
