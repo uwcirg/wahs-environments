@@ -1,3 +1,4 @@
+# https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/image/v7.0.3/src/main/resources/application.yaml
 #Uncomment the following lines to enable the fhir endpoint to be available at /example/path/fhir instead of /fhir
 #server:
 #  servlet:
