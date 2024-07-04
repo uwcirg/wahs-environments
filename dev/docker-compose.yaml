@@ -16,6 +16,8 @@ services:
   fhir:
     image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v7.0.3}
     environment:
+      management.endpoints.web.exposure.include: health,prometheus,env,configprops
+      
       SPRING_CONFIG_LOCATION: file:///opt/application.yaml
       spring.datasource.url: jdbc:postgresql://db:5432/hapifhir
       spring.datasource.username: postgres
@@ -23,7 +25,18 @@ services:
       spring.datasource.driverClassName: org.postgresql.Driver
       spring.jpa.properties.hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgres94Dialect
 
+      # enable IPS; use latest version
+      hapi.fhir.ips_enabled: "true"
+      hapi.fhir.implementationguides.ips_1_1_0.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
+      hapi.fhir.implementationguides.ips_1_1_0.name: hl7.fhir.uv.ips
+      hapi.fhir.implementationguides.ips_1_1_0.version: 1.1.0
       hapi.fhir.server_address: https://fhir.${BASE_DOMAIN:-localtest.me}/fhir/
+
+      # Demo: relax reference and ID requirements for sandbox/testing data sources
+      hapi.fhir.allow_external_references: "true"
+      hapi.fhir.enforce_referential_integrity_on_write: "false"
+      hapi.fhir.auto_create_placeholder_reference_targets: "true"
+      hapi.fhir.client_id_strategy: ANY
     # expose HAPI to internet - remove entire `labels` section if unwanted
     labels:
       - "traefik.enable=true"

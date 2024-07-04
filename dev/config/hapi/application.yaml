@@ -9,7 +9,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health,prometheus,env,configprops"
+        include: "health,prometheus"
 spring:
   main:
     allow-circular-references: true
@@ -19,11 +19,11 @@ spring:
     baselineOnMigrate: true
     fail-on-missing-locations: false
   datasource:
-    url: 'jdbc:postgresql://db:5432/hapifhir'
-    #url: jdbc:h2:mem:test_mem
-    username: postgres
-    password: postgres
-    driverClassName: org.postgresql.Driver
+    #url: 'jdbc:h2:file:./target/database/h2'
+    url: jdbc:h2:mem:test_mem
+    username: sa
+    password: null
+    driverClassName: org.h2.Driver
     max-active: 15
 
     # database connection pool size
@@ -37,7 +37,7 @@ spring:
       #Hibernate dialect is automatically detected except Postgres and H2.
       #If using H2, then supply the value of ca.uhn.fhir.jpa.model.dialect.HapiFhirH2Dialect
       #If using postgres, then supply the value of ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgres94Dialect
-      hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgres94Dialect
+      hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirH2Dialect
   #      hibernate.hbm2ddl.auto: update
   #      hibernate.jdbc.batch_size: 20
   #      hibernate.cache.use_query_cache: false
@@ -91,7 +91,7 @@ hapi:
     #    server_address: http://hapi.fhir.org/baseR4
     #    defer_indexing_for_codesystems_of_size: 101
     #    install_transitive_ig_dependencies: true
-    implementationguides:
+    #implementationguides:
     ###    example from registry (packages.fhir.org)
     #  swiss:
     #    name: swiss.mednet.fhir
@@ -99,10 +99,10 @@ hapi:
     #    reloadExisting: false
     #    installMode: STORE_AND_INSTALL
     #      example not from registry
-      ips_1_1_0:
-        packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
-        name: hl7.fhir.uv.ips
-        version: 1.1.0
+    #      ips_1_0_0:
+    #        packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
+    #        name: hl7.fhir.uv.ips
+    #        version: 1.0.0
     #    supported_resource_types:
     #      - Patient
     #      - Observation
@@ -112,14 +112,13 @@ hapi:
     #    allowed_bundle_types: COLLECTION,DOCUMENT,MESSAGE,TRANSACTION,TRANSACTIONRESPONSE,BATCH,BATCHRESPONSE,HISTORY,SEARCHSET
     #    allow_cascading_deletes: true
     #    allow_contains_searches: true
-    allow_external_references: true
+    #    allow_external_references: true
     #    allow_multiple_delete: true
     #    allow_override_default_search_params: true
-    auto_create_placeholder_reference_targets: true
-    cr_enabled: true
+    #    auto_create_placeholder_reference_targets: false
     ### tells the server to automatically append the current version of the target resource to references at these paths
     #    auto_version_reference_at_paths: Device.patient, Device.location, Device.parent, DeviceMetric.parent, DeviceMetric.source, Observation.device, Observation.subject
-    ips_enabled: true
+    #    ips_enabled: false
     #    default_encoding: JSON
     #    default_pretty_print: true
     #    default_page_size: 20
@@ -137,7 +136,7 @@ hapi:
     #    enforce_referential_integrity_on_delete: false
     # This is an experimental feature, and does not fully support _total and other FHIR features.
     #    enforce_referential_integrity_on_delete: false
-    enforce_referential_integrity_on_write: false
+    #    enforce_referential_integrity_on_write: false
     #    etag_support_enabled: true
     #    expunge_enabled: true
     #    client_id_strategy: ALPHANUMERIC
