@@ -66,8 +66,45 @@ services:
         aliases:
           - fhir-internal
 
+  shl-creator:
+    image: ghcr.io/uwcirg/shl-creator:${SHL_CREATOR_IMAGE_TAG:-latest}
+    environment:
+      VITE_API_BASE: https://shl-server.${BASE_DOMAIN}/api
+      VITE_BACK_URL: https://${BASE_DOMAIN}/pro_reports/clinic_report_inform
+      VITE_SOF_ISS: https://fhir-auth.${BASE_DOMAIN}/fhir
+      VITE_OIDC_SERVER_BASE: https://keycloak.${BASE_DOMAIN}
+      VITE_OIDC_LOGOUT_ENDPOINT: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/logout
+      VITE_OIDC_CHECK_SESSION_IFRAME: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/login-status-iframe.html
+      VITE_POST_LOGOUT_REDIRECT_URI: https://${BASE_DOMAIN}/users
+    env_file:
+      shl-creator.env
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.rule=Host(`shl-creator.${BASE_DOMAIN}`)
+      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
+      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.tls=true
+      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
+    networks:
+      - ingress
+
+  shl-server:
+    image: ghcr.io/uwcirg/shl-ltt-server:${SHL_SERVER_IMAGE_TAG:-latest}
+    environment:
+      PUBLIC_URL: https://shl-server.${BASE_DOMAIN}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.rule=Host(`shl-server.${BASE_DOMAIN}`)
+      - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
+      - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.tls=true
+      - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
+    volumes:
+      - shl-server-data:/app/db
+    networks:
+      - ingress
+
 volumes:
   db-data: {}
+  shl-server-data: {}
 
 
 networks:
