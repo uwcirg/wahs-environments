@@ -29,7 +29,7 @@ services:
       hapi.fhir.ips_enabled: "true"
       hapi.fhir.implementationguides.ips_1_1_0.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
       hapi.fhir.implementationguides.ips_1_1_0.name: hl7.fhir.uv.ips
-      hapi.fhir.implementationguides.ips_1_1_0.version: 1.1.0
+      hapi.fhir.implementationguides.ips_1_1_0.version: 2.0.0-ballot
       hapi.fhir.server_address: https://fhir.${BASE_DOMAIN:-localtest.me}/fhir/
 
       # Demo: relax reference and ID requirements for sandbox/testing data sources
