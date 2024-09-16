@@ -14,9 +14,9 @@ services:
       - internal
 
   fhir:
-    image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v7.0.3}
+    image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v7.2.0}
     environment:
-      management.endpoints.web.exposure.include: health,prometheus,env,configprops
+      management.endpoints.web.exposure.include: "health,prometheus,env,configprops"
       
       SPRING_CONFIG_LOCATION: file:///opt/application.yaml
       spring.datasource.url: jdbc:postgresql://db:5432/hapifhir
@@ -27,9 +27,9 @@ services:
 
       # enable IPS; use latest version
       hapi.fhir.ips_enabled: "true"
-      hapi.fhir.implementationguides.ips_1_1_0.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
-      hapi.fhir.implementationguides.ips_1_1_0.name: hl7.fhir.uv.ips
-      hapi.fhir.implementationguides.ips_1_1_0.version: 2.0.0-ballot
+      hapi.fhir.implementationguides.ips_2_0_0-ballot.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
+      hapi.fhir.implementationguides.ips_2_0_0-ballot.name: hl7.fhir.uv.ips
+      hapi.fhir.implementationguides.ips_2_0_0-ballot.version: 2.0.0-ballot
       hapi.fhir.server_address: https://fhir.${BASE_DOMAIN:-localtest.me}/fhir/
 
       # Demo: relax reference and ID requirements for sandbox/testing data sources
