@@ -88,7 +88,7 @@ services:
       - ingress
 
   shl-server:
-    image: ghcr.io/uwcirg/shl-ltt-server:${SHL_SERVER_IMAGE_TAG:-latest}
+    image: ghcr.io/uwcirg/smart.health.links-server:${SHL_SERVER_IMAGE_TAG:-latest}
     environment:
       PUBLIC_URL: https://shl-server.${BASE_DOMAIN}
     labels:
