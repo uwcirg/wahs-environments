@@ -67,9 +67,10 @@ services:
           - fhir-internal
 
   shl-creator:
-    image: ghcr.io/uwcirg/shl-creator:${SHL_CREATOR_IMAGE_TAG:-latest}
+    image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-latest}
     environment:
       VITE_API_BASE: https://shl-server.${BASE_DOMAIN}/api
+      VITE_INTERMEDIATE_FHIR_SERVER_BASE: https://fhir.${BASE_DOMAIN}/fhir/
       VITE_BACK_URL: https://${BASE_DOMAIN}/pro_reports/clinic_report_inform
       VITE_SOF_ISS: https://fhir-auth.${BASE_DOMAIN}/fhir
       VITE_OIDC_SERVER_BASE: https://keycloak.${BASE_DOMAIN}
