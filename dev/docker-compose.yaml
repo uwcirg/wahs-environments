@@ -67,7 +67,9 @@ services:
           - fhir-internal
 
   shl-creator:
-    image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-latest}
+    #image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-latest}
+    #image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-ai-chat-experimental}
+    image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-epic-uwmed-prod}
     environment:
       VITE_API_BASE: https://shl-server.${BASE_DOMAIN}/api
       VITE_INTERMEDIATE_FHIR_SERVER_BASE: https://fhir.${BASE_DOMAIN}/fhir/
@@ -100,6 +102,21 @@ services:
       - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
     volumes:
       - shl-server-data:/app/db
+    networks:
+      - ingress
+
+  llm-service:
+    image: ghcr.io/uwcirg/llm-wrap:${LLM_SERVICE_IMAGE_TAG:-latest}
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    #ports:
+    #  - "5000:5000"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.rule=Host(`llm-service.${BASE_DOMAIN}`)
+      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
+      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.tls=true
+      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
     networks:
       - ingress
 
