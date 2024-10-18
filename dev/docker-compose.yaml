@@ -2,7 +2,7 @@
 version: "3.7"
 services:
   db:
-    image: postgres:${POSTGRES_IMAGE_TAG:-16}
+    image: postgres:${POSTGRES_IMAGE_TAG:-12}
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -23,13 +23,13 @@ services:
       spring.datasource.username: postgres
       spring.datasource.password: postgres
       spring.datasource.driverClassName: org.postgresql.Driver
-      spring.jpa.properties.hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgres94Dialect
+      spring.jpa.properties.hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
 
       # enable IPS; use latest version
       hapi.fhir.ips_enabled: "true"
-      hapi.fhir.implementationguides.ips_2_0_0-ballot.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
-      hapi.fhir.implementationguides.ips_2_0_0-ballot.name: hl7.fhir.uv.ips
-      hapi.fhir.implementationguides.ips_2_0_0-ballot.version: 2.0.0-ballot
+      hapi.fhir.implementationguides.ips_2_0_0.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
+      hapi.fhir.implementationguides.ips_2_0_0.name: hl7.fhir.uv.ips
+      hapi.fhir.implementationguides.ips_2_0_0.version: 2.0.0
       hapi.fhir.server_address: https://fhir.${BASE_DOMAIN:-localtest.me}/fhir/
 
       # Demo: relax reference and ID requirements for sandbox/testing data sources

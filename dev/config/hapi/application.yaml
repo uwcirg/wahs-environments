@@ -1,5 +1,5 @@
-#https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/image/v7.0.3/src/main/resources/application.yaml
-#Uncomment the "servelet" and "context-path" lines below to enable the fhir endpoint to be available at /example/path/fhir instead of the default value of /fhir
+#https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/image/v7.2.0/src/main/resources/application.yaml
+#Uncomment the "servlet" and "context-path" lines below to make the fhir endpoint available at /example/path/fhir instead of the default value of /fhir
 server:
 #  servlet:
 #    context-path: /example/path
