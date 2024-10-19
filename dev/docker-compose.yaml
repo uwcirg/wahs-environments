@@ -69,7 +69,8 @@ services:
   shl-creator:
     #image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-latest}
     #image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-ai-chat-experimental}
-    image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-epic-uwmed-prod}
+    #image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-epic-uwmed-prod}
+    image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-llm-chat-take-2}
     environment:
       VITE_API_BASE: https://shl-server.${BASE_DOMAIN}/api
       VITE_INTERMEDIATE_FHIR_SERVER_BASE: https://fhir.${BASE_DOMAIN}/fhir/
