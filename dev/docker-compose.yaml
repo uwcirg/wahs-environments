@@ -110,24 +110,16 @@ services:
     image: ghcr.io/uwcirg/llm-wrap:${LLM_SERVICE_IMAGE_TAG:-latest}
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-    #ports:
-    #  - "5000:5000"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.rule=Host(`llm-service.${BASE_DOMAIN}`)"
       - "traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
       - "traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.tls=true"
       - "traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
-        #- traefik.enable=true
-        #- traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.rule=Host(`llm-service.${BASE_DOMAIN}`)
-        #- traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
-        #- traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.tls=true
-        #- traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
-       # add CORS middleware, configured to return `Access-Control-Allow-Origin: *`
+      # add CORS middleware, configured to return `Access-Control-Allow-Origin: *`
       # NB accessControlAllowOrigin is deprecated, but not noted in docs
       # https://github.com/traefik/traefik/issues/8796
       - "traefik.http.middlewares.llm-service-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowOriginList=*"
-      # allow all verbs used by FHIR REST
       - "traefik.http.middlewares.llm-service-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowMethods=HEAD,GET,OPTIONS,PATCH,POST,PUT,DELETE"
       - "traefik.http.middlewares.llm-service-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept"
       - "traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.middlewares=llm-service-${COMPOSE_PROJECT_NAME}-cors"
