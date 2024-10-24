@@ -1,7 +1,7 @@
 {
   "id": "25facb13-fdb5-46cd-b66d-fa9305652f1a",
-  "realm": "ltt",
-  "displayName": "Let's Talk Tech",
+  "realm": "ips",
+  "displayName": "International Patient Summary",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -46,7 +46,7 @@
   "failureFactor": 30,
   "defaultRole": {
     "id": "0f25599f-05d1-4859-895d-e097d2b8bc4d",
-    "name": "default-roles-ltt",
+    "name": "default-roles-ips",
     "description": "${role_default-roles}",
     "composite": true,
     "clientRole": false,
@@ -136,7 +136,7 @@
        "alwaysDisplayInConsole": false,
        "clientAuthenticatorType": "client-secret",
        "redirectUris": [
-         "${KEYCLOAK_SHL_CREATOR_BASE}/share"
+         "${KEYCLOAK_SHL_CREATOR_BASE}/create"
        ],
        "webOrigins": [
          "*"
@@ -158,7 +158,7 @@
          "backchannel.logout.revoke.offline.tokens": "false",
          "frontchannel.logout.url": "${KEYCLOAK_SHL_CREATOR_BASE}/logout",
          "backchannel.logout.url": "",
-         "post.logout.redirect.uris": "${KEYCLOAK_CPRO_LANDING_PAGE}"
+         "post.logout.redirect.uris": "${KEYCLOAK_SHL_CREATOR_BASE}"
        },
        "authenticationFlowBindingOverrides": {},
        "fullScopeAllowed": true,
@@ -179,65 +179,6 @@
          "patient/*.read",
          "microprofile-jwt"
        ]
-     },
-     {
-       "clientId": "ltt_cpro",
-       "name": "cPRO Let's Talk Tech",
-       "description": "cPRO configured as inform project",
-       "rootUrl": "",
-       "adminUrl": "",
-       "baseUrl": "",
-       "surrogateAuthRequired": false,
-       "enabled": true,
-       "alwaysDisplayInConsole": false,
-       "clientAuthenticatorType": "client-secret",
-       "secret": "${KEYCLOAK_LTT_CPRO_CLIENT_SECRET}",
-       "redirectUris": [
-         "*"
-       ],
-       "webOrigins": [
-       ],
-       "notBefore": 0,
-       "bearerOnly": false,
-       "consentRequired": false,
-       "standardFlowEnabled": true,
-       "implicitFlowEnabled": false,
-       "directAccessGrantsEnabled": false,
-       "serviceAccountsEnabled": false,
-       "publicClient": false,
-       "frontchannelLogout": false,
-       "protocol": "openid-connect",
-       "attributes": {
-         "oidc.ciba.grant.enabled": "false",
-         "oauth2.device.authorization.grant.enabled": "false",
-         "client.secret.creation.time": "1703195110",
-         "backchannel.logout.session.required": "true",
-         "backchannel.logout.revoke.offline.tokens": "false",
-         "backchannel.logout.url": "${KEYCLOAK_CPRO_BACKCHANNEL_LOGOUT_URL}",
-         "post.logout.redirect.uris": "+",
-         "display.on.consent.screen": "false"
-       },
-       "authenticationFlowBindingOverrides": {},
-       "fullScopeAllowed": true,
-       "nodeReRegistrationTimeout": -1,
-       "defaultClientScopes": [
-         "web-origins",
-         "acr",
-         "roles",
-         "profile",
-         "email"
-       ],
-       "optionalClientScopes": [
-         "address",
-         "phone",
-         "offline_access",
-         "microprofile-jwt"
-       ],
-       "access": {
-         "view": true,
-         "configure": true,
-         "manage": true
-       }
      }
   ],
   "clientScopes": [
@@ -821,8 +762,8 @@
     "user": "${KEYCLOAK_EMAIL_USER}",
     "password": "${KEYCLOAK_EMAIL_PASSWORD}"
   },
-  "loginTheme": "ltt",
-  "emailTheme": "ltt",
+  "loginTheme": "ips",
+  "emailTheme": "ips",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"

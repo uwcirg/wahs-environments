@@ -123,10 +123,10 @@ services:
       fhir-auth.env
     environment:
       UPSTREAM_SERVER: http://fhir-internal:8080
-      OIDC_AUTHORIZE_URL: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/auth
-      OIDC_TOKEN_URI: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/token
-      OIDC_TOKEN_INTROSPECTION_URI: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/token/introspect
-      JWKS_URL: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/certs
+      OIDC_AUTHORIZE_URL: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/auth
+      OIDC_TOKEN_URI: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/token
+      OIDC_TOKEN_INTROSPECTION_URI: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/token/introspect
+      JWKS_URL: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/certs
       PATH_WHITELIST: /fhir/metadata,/fhir/.well-known/smart-configuration
     labels:
       - traefik.enable=true
@@ -158,8 +158,8 @@ services:
       VITE_BACK_URL: https://${BASE_DOMAIN}/pro_reports/clinic_report_inform
       VITE_SOF_ISS: https://fhir-auth.${BASE_DOMAIN}/fhir
       VITE_OIDC_SERVER_BASE: https://keycloak.${BASE_DOMAIN}
-      VITE_OIDC_LOGOUT_ENDPOINT: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/logout
-      VITE_OIDC_CHECK_SESSION_IFRAME: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/login-status-iframe.html
+      VITE_OIDC_LOGOUT_ENDPOINT: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/logout
+      VITE_OIDC_CHECK_SESSION_IFRAME: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/login-status-iframe.html
       VITE_POST_LOGOUT_REDIRECT_URI: https://${BASE_DOMAIN}/users
     env_file:
       shl-creator.env
