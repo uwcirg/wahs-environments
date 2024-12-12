@@ -2,7 +2,7 @@
 version: "3.7"
 services:
   db:
-    image: postgres:${POSTGRES_IMAGE_TAG:-16}
+    image: postgres:${POSTGRES_IMAGE_TAG:-12}
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -14,22 +14,22 @@ services:
       - internal
 
   fhir:
-    image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v7.0.3}
+    image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v7.2.0}
     environment:
-      management.endpoints.web.exposure.include: health,prometheus,env,configprops
+      management.endpoints.web.exposure.include: "health,prometheus,env,configprops"
       
       SPRING_CONFIG_LOCATION: file:///opt/application.yaml
       spring.datasource.url: jdbc:postgresql://db:5432/hapifhir
       spring.datasource.username: postgres
       spring.datasource.password: postgres
       spring.datasource.driverClassName: org.postgresql.Driver
-      spring.jpa.properties.hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgres94Dialect
+      spring.jpa.properties.hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
 
       # enable IPS; use latest version
       hapi.fhir.ips_enabled: "true"
-      hapi.fhir.implementationguides.ips_1_1_0.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
-      hapi.fhir.implementationguides.ips_1_1_0.name: hl7.fhir.uv.ips
-      hapi.fhir.implementationguides.ips_1_1_0.version: 1.1.0
+      hapi.fhir.implementationguides.ips_2_0_0.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
+      hapi.fhir.implementationguides.ips_2_0_0.name: hl7.fhir.uv.ips
+      hapi.fhir.implementationguides.ips_2_0_0.version: 2.0.0
       hapi.fhir.server_address: https://fhir.${BASE_DOMAIN:-localtest.me}/fhir/
 
       # Demo: relax reference and ID requirements for sandbox/testing data sources
@@ -123,10 +123,10 @@ services:
       fhir-auth.env
     environment:
       UPSTREAM_SERVER: http://fhir-internal:8080
-      OIDC_AUTHORIZE_URL: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/auth
-      OIDC_TOKEN_URI: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/token
-      OIDC_TOKEN_INTROSPECTION_URI: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/token/introspect
-      JWKS_URL: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/certs
+      OIDC_AUTHORIZE_URL: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/auth
+      OIDC_TOKEN_URI: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/token
+      OIDC_TOKEN_INTROSPECTION_URI: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/token/introspect
+      JWKS_URL: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/certs
       PATH_WHITELIST: /fhir/metadata,/fhir/.well-known/smart-configuration
     labels:
       - traefik.enable=true
@@ -151,13 +151,15 @@ services:
       - internal
 
   shl-creator:
-    image: ghcr.io/uwcirg/shl-ips:${SHL_IPS_IMAGE_TAG:-latest}
+    image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-latest}
     environment:
       VITE_API_BASE: https://shl-server.${BASE_DOMAIN}/api
+      VITE_INTERMEDIATE_FHIR_SERVER_BASE: https://fhir.${BASE_DOMAIN}/fhir/
+      VITE_BACK_URL: https://${BASE_DOMAIN}/pro_reports/clinic_report_inform
       VITE_SOF_ISS: https://fhir-auth.${BASE_DOMAIN}/fhir
       VITE_OIDC_SERVER_BASE: https://keycloak.${BASE_DOMAIN}
-      VITE_OIDC_LOGOUT_ENDPOINT: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/logout
-      VITE_OIDC_CHECK_SESSION_IFRAME: https://keycloak.${BASE_DOMAIN}/realms/ltt/protocol/openid-connect/login-status-iframe.html
+      VITE_OIDC_LOGOUT_ENDPOINT: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/logout
+      VITE_OIDC_CHECK_SESSION_IFRAME: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/login-status-iframe.html
       VITE_POST_LOGOUT_REDIRECT_URI: https://${BASE_DOMAIN}/users
     env_file:
       shl-creator.env
@@ -171,7 +173,7 @@ services:
       - ingress
 
   shl-server:
-    image: ghcr.io/uwcirg/shl-server:${SHL_SERVER_IMAGE_TAG:-latest}
+    image: ghcr.io/uwcirg/smart.health.links-server:${SHL_SERVER_IMAGE_TAG:-latest}
     environment:
       PUBLIC_URL: https://shl-server.${BASE_DOMAIN}
     labels:
