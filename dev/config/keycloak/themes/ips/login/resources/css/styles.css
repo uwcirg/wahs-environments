@@ -1,11 +1,11 @@
 :root {
-  --body-bg-color: #325c33;
-  --primary-color: #325c33;
+  --body-bg-color: #e7f1ff;
+  --primary-color: #rgb(34, 72, 156);
   --primary-hover-color: #254325;
   --section-border-color: #dcdfdc;
   --button-primary-color: #af4507;
   --button-primary-hover-color: #883505;
-  --title-color: #325c33;
+  --title-color: rgb(34, 72, 156);
   --label-color: #71757b;
   --link-color: #1994d0;
   --link-hover-color: #126994;
@@ -32,7 +32,7 @@ html.login-pf {
   left: 0;
   top: 0;
   width: 100%;
-  background-color: var(--body-bg-color);
+  background-color: #fff;
   color: #fff;
   line-height: 3em;
   box-shadow: 0 0 0.15em 0 rgba(0, 0, 0, 0.1);
