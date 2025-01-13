@@ -136,7 +136,7 @@
        "alwaysDisplayInConsole": false,
        "clientAuthenticatorType": "client-secret",
        "redirectUris": [
-         "${KEYCLOAK_SHL_CREATOR_BASE}/create"
+         "${KEYCLOAK_SHL_CREATOR_BASE}/auth"
        ],
        "webOrigins": [
          "*"
@@ -158,7 +158,7 @@
          "backchannel.logout.revoke.offline.tokens": "false",
          "frontchannel.logout.url": "${KEYCLOAK_SHL_CREATOR_BASE}/logout",
          "backchannel.logout.url": "",
-         "post.logout.redirect.uris": "${KEYCLOAK_SHL_CREATOR_BASE}"
+         "post.logout.redirect.uris": "${KEYCLOAK_SHL_CREATOR_BASE}/home##${KEYCLOAK_SHL_CREATOR_BASE}"
        },
        "authenticationFlowBindingOverrides": {},
        "fullScopeAllowed": true,
