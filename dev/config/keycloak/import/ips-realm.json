@@ -778,7 +778,7 @@
       "alias": "google",
       "internalId": "c89e7660-1b6f-4596-bbef-090d4dd31f74",
       "providerId": "google",
-      "enabled": true,
+      "enabled": "${KEYCLOAK_GOOGLE_IDP_ENABLED}",
       "updateProfileFirstLoginMode": "on",
       "trustEmail": false,
       "storeToken": false,
@@ -787,8 +787,8 @@
       "linkOnly": false,
       "firstBrokerLoginFlowAlias": "first broker login",
       "config": {
-        "clientSecret": "**********",
-        "clientId": "694968866760-2s4l6qj4jtetdfd8l4e4g0aj0ef8qs02.apps.googleusercontent.com"
+        "clientSecret": "${KEYCLOAK_GOOGLE_IDP_CLIENT_SECRET}",
+        "clientId": "${KEYCLOAK_GOOGLE_IDP_CLIENT_ID}"
       }
     }
   ],
