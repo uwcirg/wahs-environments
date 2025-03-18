@@ -165,6 +165,8 @@ services:
       VITE_AUTH_CHECK_SESSION_IFRAME: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/login-status-iframe.html
       VITE_LOG_URL: https://shl-server.${BASE_DOMAIN}/api/log
       VITE_SYSTEM_URL: https://shl-creator.${BASE_DOMAIN}
+
+      REDIRECT_URI: https://shl-creator.${BASE_DOMAIN}/create
     env_file:
       shl-creator.env
     labels:
