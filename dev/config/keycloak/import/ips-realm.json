@@ -1,7 +1,7 @@
 {
   "id": "25facb13-fdb5-46cd-b66d-fa9305652f1a",
   "realm": "ips",
-  "displayName": "International Patient Summary",
+  "displayName": "WA Health Summary",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,

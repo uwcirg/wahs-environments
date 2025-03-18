@@ -38,10 +38,11 @@
 <body class="${properties.kcBodyClass!}">
     <div class="${properties.kcLoginClass!}">
         <header id="header">
-            <img src="${url.resourcesPath}/img/logo.svg" alt="Let's Talk Tech logo">
+            <img src="${url.resourcesPath}/img/company-logo.png" alt="WA State Department of Health logo">
         </header>
         <div id="kc-header" class="${properties.kcHeaderClass!}">
             <div id="kc-header-wrapper" class="${properties.kcHeaderWrapperClass!}">
+                <img style="margin-top: 1rem; padding-top: 1px; height:100%; width: 100%; max-width: 420px; display: block; margin-left: auto; margin-right: auto;" src="${url.resourcesPath}/img/logo.png" alt="Logo">
                 <#if properties.systemType?has_content>
                     <div id="kc-system-type">${kcSanitize(msg("systemType", properties.systemType))?no_esc}</div>
                 </#if>
@@ -152,6 +153,7 @@
             </#if>
             </div>
         </div>
+        <p><a href="https://smart-health-links-ips.cirg.washington.edu">Learn more about WA Health Summary</a></p>
     </div>
   </div>
 </body>
