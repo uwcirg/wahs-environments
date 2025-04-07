@@ -1,0 +1,383 @@
+:root {
+  --body-bg-color: #e7f1ff;
+  --primary-color: #rgb(34, 72, 156);
+  --primary-hover-color: #254325;
+  --section-border-color: #dcdfdc;
+  --button-primary-color: #af4507;
+  --button-primary-hover-color: #883505;
+  --title-color: rgb(34, 72, 156);
+  --label-color: #71757b;
+  --link-color: #1994d0;
+  --link-hover-color: #126994;
+  --highlight-bg-color: #f9e4d3;
+  --text-default-color: #444;
+  --default-body-font-size: 16px;
+}
+body {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: var(--default-body-font-size);
+}
+.pf-c-alert__title {
+  font-size: var(--default-body-font-size);
+  line-height: 1.4;
+}
+
+html.login-pf {
+  background: var(--body-bg-color);
+}
+
+#header {
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: #fff;
+  color: #fff;
+  line-height: 3em;
+  box-shadow: 0 0 0.15em 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  height: 4em;
+}
+
+#header img {
+  height: 2em;
+  padding-left: 1em;
+}
+
+#kc-header {
+  margin-top: 4em;
+}
+
+.login-pf-page {
+  background-color: var(--body-bg-color);
+  height: 100%;
+  padding-top: 4em;
+  padding-bottom: 24px;
+  background-color: var(--body-bg-color);
+}
+@media (min-width: 768px) {
+  .login-pf-page {
+    padding-top: 3em;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  color: inherit;
+  /* letter-spacing: -0.0325em; */
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+ul, p {
+  line-height: 1.4;
+}
+
+.alert {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.alert-error {
+  color: #9b0202;
+}
+input[type="text"],
+input[type="password"] {
+  display: block;
+  width: 100%;
+  height: 32px;
+  padding: 2px 6px;
+  font-size: var(--default-body-font-size);
+  line-height: 1.66666667;
+  color: #363636;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #bbb;
+  border-top-color: rgb(187, 187, 187);
+  border-right-color: rgb(187, 187, 187);
+  border-bottom-color: rgb(187, 187, 187);
+  border-left-color: rgb(187, 187, 187);
+  border-radius: 0;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  margin-bottom: 24px;
+  box-sizing: border-box;
+}
+input[type="submit"] {
+  background-image: none;
+  background-color: var(--primary-color);
+  padding: 16px;
+  width: 100%;
+  font-size: var(--default-body-font-size);
+  color: #fff;
+  box-sizing: border-box;
+  box-shadow: none;
+  border: 0;
+  display: block;
+}
+input[type="submit"]:hover {
+  background-color: var(--primary-hover-color);
+}
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--link-hover-color);
+}
+[class*="pf-c-"],
+[class*="pf-c-"]::before,
+[class*="pf-c-"]::after {
+  padding: 4px 0;
+}
+label {
+  font-weight: 500;
+  display: inline-block;
+  font-size: 14px;
+  margin-bottom: 4px;
+  color: var(--label-color);
+}
+.btn {
+  border-radius: 8px;
+}
+.btn-primary,
+.pf-c-button.pf-m-primary {
+  background-image: none;
+  background-color: var(--button-primary-color);
+  border: 0;
+  border-radius: 8px;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.pf-c-button.pf-m-primary:hover,
+.pf-c-button.pf-m-primary:focus,
+.pf-c-button.pf-m-primary:active {
+  background-color: var(--button-primary-hover-color);
+}
+
+.login-pf body {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  background-color: var(--body-bg-color);
+  background-image: none;
+  font-size: var(--default-body-font-size);
+}
+.login-pf-page .card-pf {
+  margin-bottom: 32px;
+}
+@media (min-width: 768px) {
+  .login-pf-page .card-pf {
+    padding: 16px 32px 48px 32px;
+  }
+}
+.login-pf-page .card-pf p {
+  font-size: var(--default-body-font-size);
+  line-height: 1.4;
+}
+@media (min-width: 768px) {
+  .login-pf-page .login-pf-header {
+    margin-bottom: 10px;
+  }
+}
+@media (max-width: 767px) {
+  .login-pf-page .card-pf {
+      max-width: 100%;
+      margin-left: 16px;
+      margin-right: 16px;
+      padding: 4px 16px 24px;
+  }
+}
+.login-pf-page .login-pf-header h1 {
+  font-size: 1.75em;
+}
+#kc-info-wrapper {
+  background-color: transparent;
+  padding: 0;
+  text-align: left;
+  font-size: var(--default-body-font-size);
+  line-height: 1.4;
+}
+#kc-header-wrapper {
+  font-weight: 500;
+  text-transform: capitalize;
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 767px) {
+  #kc-header-wrapper {
+    color: #fff;
+    padding: 0;
+  }
+}
+#kc-site-name,
+#kc-system-type {
+  color: #fff;
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 1.8rem;
+}
+#kc-login-info-message {
+  max-width: 100%;
+  margin: auto;
+  line-height: 1.55;
+  background: var(--highlight-bg-color);
+  color: var(--text-default-color);
+  padding: 16px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+@media (min-width: 768px) {
+  #kc-login-info-message {
+    max-width: 60%;
+    margin: auto;
+  }
+}
+#kc-content-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+#kc-header {
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+#kc-page-title {
+  text-align: center;
+  font-weight: 600;
+  color: var(--title-color);
+  padding-bottom: 4px;
+  font-size: 1.75em;
+}
+h1#kc-page-title {
+  margin-top: 24px;
+}
+#kc-form {
+  width: 100%;
+}
+#kc-form-buttons {
+  margin-top: 24px;
+  text-align: center;
+}
+#kc-form-options .checkbox {
+  display: none;
+}
+#kc-info {
+  margin-top: 0;
+  margin-bottom: 8px;
+  margin-left: 0;
+  margin-right: 0;
+  color: #777;
+}
+.card-pf {
+  background: #fff;
+  margin: 0 auto;
+  margin-bottom: 0px;
+  padding: 0 20px;
+  max-width: 420px;
+  border-top: 0;
+  box-shadow: 0 0 0;
+  padding: 0 40px 40px;
+  margin-top: 28px;
+  margin-bottom: 32px;
+}
+.card-pf form.form-actions .btn {
+  margin-bottom: 16px;
+}
