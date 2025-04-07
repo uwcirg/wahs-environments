@@ -1,5 +1,3 @@
----
-version: "3.7"
 services:
   db:
     image: postgres:${POSTGRES_IMAGE_TAG:-12}
@@ -69,7 +67,7 @@ services:
   keycloak:
     # use tini as init
     init: true
-    image: quay.io/keycloak/keycloak:${KEYCLOAK_IMAGE_TAG:-22.0}
+    image: ghcr.io/uwcirg/keycloak-waverifyplus:${KEYCLOAK_IMAGE_TAG:-latest}
     labels:
       - traefik.enable=true
       - traefik.http.routers.keycloak-${COMPOSE_PROJECT_NAME}.rule=Host(`keycloak.${BASE_DOMAIN}`)
