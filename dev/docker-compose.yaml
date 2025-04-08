@@ -148,7 +148,8 @@ services:
       - internal
 
   shl-creator:
-    image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-latest}
+    #image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-latest}
+    image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-llm-post-svelte-refactor}
     environment:
       VITE_API_BASE: https://shl-server.${BASE_DOMAIN}/api
       VITE_INTERMEDIATE_FHIR_SERVER_BASE: https://fhir.${BASE_DOMAIN}/fhir
@@ -188,6 +189,27 @@ services:
       - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
     volumes:
       - shl-server-data:/app/db
+    networks:
+      - ingress
+
+  llm-service:
+    image: ghcr.io/uwcirg/llm-wrap:${LLM_SERVICE_IMAGE_TAG:-latest}
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.rule=Host(`llm-service.${BASE_DOMAIN}`)"
+      - "traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+      - "traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.tls=true"
+      - "traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
+      # add CORS middleware, configured to return `Access-Control-Allow-Origin: *`
+      # NB accessControlAllowOrigin is deprecated, but not noted in docs
+      # https://github.com/traefik/traefik/issues/8796
+      - "traefik.http.middlewares.llm-service-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowOriginList=*"
+      - "traefik.http.middlewares.llm-service-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowMethods=HEAD,GET,OPTIONS,PATCH,POST,PUT,DELETE"
+      - "traefik.http.middlewares.llm-service-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept"
+      - "traefik.http.routers.llm-service-${COMPOSE_PROJECT_NAME}.middlewares=llm-service-${COMPOSE_PROJECT_NAME}-cors"
+      - "traefik.http.services.llm-service-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=5000"
     networks:
       - ingress
 
