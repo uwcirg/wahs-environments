@@ -1,0 +1,27 @@
+.welcome-page .card-img-top {
+	width: auto;
+	margin: auto;
+	height: 4rem;
+}
+
+.row > div {
+	display: flex;
+}
+
+.card {
+	margin: 1rem;
+	flex: 1;
+}
+
+.card-header {
+	text-align: center;
+}
+
+.card-body {
+	display: flex;
+	flex-direction: column;
+}
+
+.card-text {
+	flex: 1;
+}

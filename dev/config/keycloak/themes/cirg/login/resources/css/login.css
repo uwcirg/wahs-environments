@@ -1,0 +1,37 @@
+.kc-login-form {
+	color: black;
+}
+
+.kc-login-form > .card {
+	overflow: hidden;
+}
+
+.kc-login-form .kc-header-form {
+	padding: 1.5rem !important;
+}
+
+.kc-login-form .kc-header-form > .h1, .kc-login-form .kc-header-form > h1 {
+	font-size: 1.5rem;
+	text-align: center;
+	padding-top: 0.7rem;
+}
+
+.kc-login-form #kc-content {
+	padding: 1.5rem !important;
+}
+
+@media (min-width: 350px) {
+	.kc-login-form .card-header img {
+		max-width: 300px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.kc-login-form > .card {
+		min-width: 600px;
+	}
+}
+
+.kc-login-tooltip, .kc-login-tooltip * {
+	color: #fff !important;
+}

@@ -1,0 +1,12 @@
+:root {
+	--body-font-size: 1rem;
+	--primary-color: #4a90e2;
+	--secondary-color: #50e3c2;
+	--font-family: 'Arial, sans-serif';
+	--header-height: 6rem;
+	--header-padding: 0.5rem;
+	--header-logo-height: 4.4rem;
+	--header-bg-color: rgba(255, 255, 255, 0.95);
+	--body-bg-color: #F5F8FA;
+	--header-border-top: 4px solid #266c6c;
+}

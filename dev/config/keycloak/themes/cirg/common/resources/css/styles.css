@@ -1,0 +1,14 @@
+@import "./variables.css";
+@import "./colors.css";
+@import "./base.css";
+@import "./header.css";
+@import "./footer.css";
+
+.cherry-page {
+	background: url("../img/overlay.png"), url("../img/cherry.jpg");
+	background-size: 256px 256px, cover;
+	background-attachment: fixed, fixed;
+	background-position: top left, center;
+	background-repeat: repeat, no-repeat;
+	height: 100%;
+}

@@ -1,0 +1,15 @@
+#kc-footer {
+	background: var(--header-bg-color);
+	padding: 1em;
+	text-align: center;
+	box-shadow: 0 -0.15em 0.15em 0 rgba(0, 0, 0, 0.1);
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+#kc-footer p {
+	margin: 0;
+	color: var(--text-color);
+	font-size: 0.9em;
+}

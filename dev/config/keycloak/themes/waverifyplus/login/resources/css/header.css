@@ -1,0 +1,139 @@
+#header {
+	position: sticky;
+	top: 0;
+	z-index: 10000;
+	width: 100%;
+	background: var(--header-bg-color);
+	line-height: 3em;
+	box-shadow: 0 0 0.15em 0 rgba(0, 0, 0, 0.1);
+	margin-bottom: 1em;
+	display: flex;
+	align-items: center;
+	height: var(--header-height);
+	justify-content: center;
+	padding: var(--header-padding);
+	overflow: hidden;
+	border-top: var(--header-border-top);
+}
+
+#header img {
+	height: var(--header-logo-height);
+}
+
+#header h1 {
+	margin-bottom: 0;
+	line-height: 3em;
+	padding-left: 1em;
+}
+
+@media (min-width: 1200px) {
+	#header h1 {
+		font-size: 1.5rem;
+	}
+}
+
+body {
+	background: var(--body-bg-color);
+}
+
+main {
+	padding-top: 2.5rem !important;
+	padding-bottom: 2.5rem !important;
+}
+
+.btn-primary {
+	font-size: 1.2em;
+	font-weight: 700;
+	padding: 6px 52px 6px 12px;
+	position: relative;
+	border: 0;
+	background-color: #07294C;
+	text-decoration: none !important;
+	color: #FFFFFF;
+	white-space: normal;
+}
+
+.btn-primary:after {
+	content: "\f101";
+	font-family: "Font Awesome 6 Free";
+	font-size: 1em;
+	font-weight: 700;
+	color: #FFCC00;
+	padding: 0 8px;
+	display: flex;
+	align-items: center;
+	background-color: #2699BB;
+	position: absolute;
+	border-radius: 0 4px 4px 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.select-auth-container {
+	list-style-type: none;
+}
+
+.intro {
+	font-size: 1.1rem;
+	line-height: 2rem;
+	flex: 1 1 auto;
+	padding: 2rem 2rem 1rem 2rem;
+	border: 1px solid rgba(0, 0, 0, .125);
+	border-radius: 1.25rem;
+	margin-bottom: 2rem;
+}
+
+.form-note {
+	display: flex;
+	padding: 1.25rem;
+	margin-top: 1.25rem;
+	margin-bottom: 1.25rem;
+	background-color: #f8f9fa;
+	border-left: 0.25rem solid #dee2e6;
+}
+
+.form-note > :first-child {
+	font-weight: bolder;
+	margin-right: 1em;
+}
+
+.form-note > p {
+	margin-bottom: 0;
+}
+
+.form-prompt {
+	color: #22489c;
+	font-size: 24px;
+	font-weight: 700;
+	margin-bottom: 25px;
+}
+
+.form-prompt + p {
+	font-weight: bold;
+}
+
+@media (min-width: 720px) {
+	#kc-form {
+		width: 52%;
+	}
+}
+
+@media (max-width: 720px) {
+	main {
+		padding-top: 0.5rem !important;
+		padding-bottom: 0.5rem !important;
+	}
+
+	#header {
+		flex-direction: column;
+		height: unset;
+	}
+
+	#header h1 {
+		margin: 0.5em;
+		line-height: 1.5em;
+		padding-left: unset;
+		font-size: 1em;
+	}
+}
