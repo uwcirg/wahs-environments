@@ -165,6 +165,7 @@ services:
       VITE_SYSTEM_URL: https://shl-creator.${BASE_DOMAIN}
 
       REDIRECT_URI: https://shl-creator.${BASE_DOMAIN}/create
+      LLM_SERVICE_URI: https://llm-service.${BASE_DOMAIN}/api/chat
     env_file:
       shl-creator.env
     labels:
