@@ -190,9 +190,6 @@ services:
       - shl-server-data:/app/db
     networks:
       - ingress
-    user: root
-    command: >
-      sh -c "chown -R deno:deno /app/db && exec su deno -c 'deno run --allow-all server.ts'"
 
 volumes:
   db-data: {}
