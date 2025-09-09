@@ -30,7 +30,7 @@ services:
       hapi.fhir.implementationguides.ips_2_0_0.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
       hapi.fhir.implementationguides.ips_2_0_0.name: hl7.fhir.uv.ips
       hapi.fhir.implementationguides.ips_2_0_0.version: 2.0.0
-      hapi.fhir.server_address: https://fhir.${BASE_DOMAIN:-localtest.me}/fhir/
+      hapi.fhir.server_address: https://fhir.${BASE_DOMAIN}/fhir/
 
       # Demo: relax reference and ID requirements for sandbox/testing data sources
       hapi.fhir.allow_external_references: "true"
@@ -40,7 +40,7 @@ services:
     # expose HAPI to internet - remove entire `labels` section if unwanted
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.rule=Host(`fhir.${BASE_DOMAIN:-localtest.me}`)"
+      - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.rule=Host(`fhir.${BASE_DOMAIN}`)"
       - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
       - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.tls=true"
       - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
