@@ -14,30 +14,47 @@ services:
       - internal
 
   fhir:
-    image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v7.2.0}
+    image: healthsamurai/aidboxone:${FHIR_IMAGE_TAG:-2504}
     environment:
-      management.endpoints.web.exposure.include: "health,prometheus,env,configprops"
-      
-      SPRING_CONFIG_LOCATION: file:///opt/application.yaml
-      spring.datasource.url: jdbc:postgresql://db:5432/hapifhir
-      spring.datasource.username: postgres
-      spring.datasource.password: postgres
-      spring.datasource.driverClassName: org.postgresql.Driver
-      spring.jpa.properties.hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
 
-      # enable IPS; use latest version
-      hapi.fhir.ips_enabled: "true"
-      hapi.fhir.implementationguides.ips_2_0_0.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
-      hapi.fhir.implementationguides.ips_2_0_0.name: hl7.fhir.uv.ips
-      hapi.fhir.implementationguides.ips_2_0_0.version: 2.0.0
-      hapi.fhir.server_address: https://fhir.${BASE_DOMAIN}/fhir/
+      # Environment variables for Postgres
+      POSTGRES_PORT: '5432'
+      POSTGRES_DB: aidbox
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
 
-      # Demo: relax reference and ID requirements for sandbox/testing data sources
-      hapi.fhir.allow_external_references: "true"
-      hapi.fhir.enforce_referential_integrity_on_write: "false"
-      hapi.fhir.auto_create_placeholder_reference_targets: "true"
-      hapi.fhir.client_id_strategy: ANY
-    # expose HAPI to internet - remove entire `labels` section if unwanted
+      # Environment variables for Aidbox
+      BOX_DB_HOST: db
+      BOX_DB_PORT: 5432
+      BOX_DB_USER: postgres
+      BOX_DB_PASSWORD: postgres
+      BOX_DB_DATABASE: aidbox
+
+      BOX_WEB_PORT: 8080
+      BOX_ROOT_CLIENT_SECRET: BOX_ROOT_CLIENT_SECRET
+      BOX_ADMIN_PASSWORD: admin
+
+      BOX_BOOTSTRAP_FHIR_PACKAGES: "hl7.fhir.r4.core#4.0.1"
+      BOX_FHIR_TERMINOLOGY_SERVICE_BASE_URL: https://tx.health-samurai.io/fhir
+      BOX_FHIR_SCHEMA_VALIDATION: true
+      BOX_FHIR_CREATEDAT_URL: https://aidbox.app/ex/createdAt
+      BOX_FHIR_CORRECT_AIDBOX_FORMAT: true
+      BOX_SETTINGS_MODE: read-write
+      BOX_FHIR_COMPLIANT_MODE: true
+      BOX_FHIR_SEARCH_COMPARISONS: true
+      BOX_FHIR_JSON_SCHEMA_DATETIME_REGEX: '#{:fhir-datetime}'
+      BOX_FHIR_SEARCH_INCLUDE_CONFORMANT: true
+      BOX_FHIR_SEARCH_AUTHORIZE_INLINE_REQUESTS: true
+      BOX_SECURITY_AUDIT_LOG_ENABLED: true
+      BOX_WEB_BASE_URL: https://aidbox.${BASE_DOMAIN}
+    env_file:
+      - fhir.env
+    healthcheck:
+      test: curl -f http://localhost:8080/health || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 90
+      start_period: 30s
     labels:
       - traefik.enable=true
       - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.rule=Host(`fhir.${BASE_DOMAIN}`)
@@ -54,7 +71,7 @@ services:
       - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept
       - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.middlewares=fhir-${COMPOSE_PROJECT_NAME}-cors
 
-      # Hapi does not EXPOSE the ports it listens on, requiring explicit traefik configuration
+      # Aidbox does not EXPOSE the ports it listens on, requiring explicit traefik configuration
       - traefik.http.services.fhir-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=8080
     volumes:
       - ./config/fhir/application.yaml:/opt/application.yaml:ro
