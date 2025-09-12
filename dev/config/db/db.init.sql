@@ -2,8 +2,8 @@
 create database keycloak;
 
 
----- HAPI ----
-create database hapifhir;
+---- Aidbox ----
+create database aidbox;
 
 
 ---- logserver ----
