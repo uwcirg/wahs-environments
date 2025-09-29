@@ -2,14 +2,14 @@
 version: "3.7"
 services:
   db:
-    image: postgres:${POSTGRES_IMAGE_TAG:-12}
+    image: postgres:${POSTGRES_IMAGE_TAG:-17}
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
-      - "db-data:/var/lib/postgresql/data"
+      - db-data:/var/lib/postgresql/data
       # mount db creation script in place for bootstrap
-      - "./config/db:/docker-entrypoint-initdb.d"
+      - ./config/db:/docker-entrypoint-initdb.d
     networks:
       - internal
 
@@ -30,7 +30,7 @@ services:
       hapi.fhir.implementationguides.ips_2_0_0.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
       hapi.fhir.implementationguides.ips_2_0_0.name: hl7.fhir.uv.ips
       hapi.fhir.implementationguides.ips_2_0_0.version: 2.0.0
-      hapi.fhir.server_address: https://fhir.${BASE_DOMAIN:-localtest.me}/fhir/
+      hapi.fhir.server_address: https://fhir.${BASE_DOMAIN}/fhir/
 
       # Demo: relax reference and ID requirements for sandbox/testing data sources
       hapi.fhir.allow_external_references: "true"
@@ -39,25 +39,25 @@ services:
       hapi.fhir.client_id_strategy: ANY
     # expose HAPI to internet - remove entire `labels` section if unwanted
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.rule=Host(`fhir.${BASE_DOMAIN:-localtest.me}`)"
-      - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
-      - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.tls=true"
-      - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt"
+      - traefik.enable=true
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.rule=Host(`fhir.${BASE_DOMAIN}`)
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.tls=true
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
       
        # add CORS middleware, configured to return `Access-Control-Allow-Origin: *`
       # NB accessControlAllowOrigin is deprecated, but not noted in docs
       # https://github.com/traefik/traefik/issues/8796
-      - "traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowOriginList=*"
+      - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowOriginList=*
       # allow all verbs used by FHIR REST
-      - "traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowMethods=HEAD,GET,OPTIONS,PATCH,POST,PUT,DELETE"
-      - "traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept"
-      - "traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.middlewares=fhir-${COMPOSE_PROJECT_NAME}-cors"
+      - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowMethods=HEAD,GET,OPTIONS,PATCH,POST,PUT,DELETE
+      - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.middlewares=fhir-${COMPOSE_PROJECT_NAME}-cors
 
       # Hapi does not EXPOSE the ports it listens on, requiring explicit traefik configuration
-      - "traefik.http.services.fhir-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=8080"
+      - traefik.http.services.fhir-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=8080
     volumes:
-      - "./config/fhir/application.yaml:/opt/application.yaml:ro"
+      - ./config/fhir/application.yaml:/opt/application.yaml:ro
     depends_on:
       - db
     networks:
