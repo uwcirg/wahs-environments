@@ -183,7 +183,7 @@
         "realm_client": "false",
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
-        "login_theme": "waverifyplus",
+        "login_theme": "ips",
         "frontchannel.logout.url": "${KEYCLOAK_SHL_CREATOR_BASE}/logout",
         "frontchannel.logout.session.required": "false",
         "post.logout.redirect.uris": "${KEYCLOAK_SHL_CREATOR_BASE}",
@@ -994,10 +994,10 @@
     "xXSSProtection": "1; mode=block",
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
-  "loginTheme": "waverifyplus",
+  "loginTheme": "ips",
   "accountTheme": "",
   "adminTheme": "",
-  "emailTheme": "waverifyplus",
+  "emailTheme": "ips",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
