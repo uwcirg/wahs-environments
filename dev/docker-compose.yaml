@@ -14,37 +14,49 @@ services:
       - internal
 
   fhir:
-    image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v7.2.0}
+    image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v7.6.0}
     environment:
-      management.endpoints.web.exposure.include: "health,prometheus,env,configprops"
-      
-      SPRING_CONFIG_LOCATION: file:///opt/application.yaml
       spring.datasource.url: jdbc:postgresql://db:5432/hapifhir
       spring.datasource.username: postgres
       spring.datasource.password: postgres
       spring.datasource.driverClassName: org.postgresql.Driver
       spring.jpa.properties.hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
 
-      # enable IPS; use latest version
-      hapi.fhir.ips_enabled: "true"
-      hapi.fhir.implementationguides.ips_2_0_0.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
-      hapi.fhir.implementationguides.ips_2_0_0.name: hl7.fhir.uv.ips
-      hapi.fhir.implementationguides.ips_2_0_0.version: 2.0.0
-      hapi.fhir.server_address: https://fhir.${BASE_DOMAIN}/fhir/
-
-      # Demo: relax reference and ID requirements for sandbox/testing data sources
-      hapi.fhir.allow_external_references: "true"
-      hapi.fhir.enforce_referential_integrity_on_write: "false"
-      hapi.fhir.auto_create_placeholder_reference_targets: "true"
+      hapi.fhir.bulk_export_enabled: "true"
+      hapi.fhir.bulk_import_enabled: "true"
+      # allow direct assignment of resource IDs in any format
       hapi.fhir.client_id_strategy: ANY
-    # expose HAPI to internet - remove entire `labels` section if unwanted
+      # enable all endpoints for operational data
+      management.endpoints.web.exposure.include: "*"
+    volumes:
+      # docker image does not contain any appropriate HTTP client
+      # use busybox from host as `wget`
+      - /usr/bin/busybox:/usr/bin/wget:ro
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - --spider
+        - --quiet
+        - http://localhost:8080/actuator/health
+      start_period: 2m
+    expose:
+      - 8080
+    depends_on:
+      - db
+    networks:
+      internal:
+        aliases:
+          - fhir-internal
+      # expose HAPI to internet
+      ingress:
     labels:
+      # unauthenticated route
       - traefik.enable=true
       - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.rule=Host(`fhir.${BASE_DOMAIN}`)
       - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
-      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.tls=true
       - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
-      
+
        # add CORS middleware, configured to return `Access-Control-Allow-Origin: *`
       # NB accessControlAllowOrigin is deprecated, but not noted in docs
       # https://github.com/traefik/traefik/issues/8796
@@ -53,18 +65,6 @@ services:
       - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowMethods=HEAD,GET,OPTIONS,PATCH,POST,PUT,DELETE
       - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept
       - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.middlewares=fhir-${COMPOSE_PROJECT_NAME}-cors
-
-      # Hapi does not EXPOSE the ports it listens on, requiring explicit traefik configuration
-      - traefik.http.services.fhir-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=8080
-    volumes:
-      - ./config/fhir/application.yaml:/opt/application.yaml:ro
-    depends_on:
-      - db
-    networks:
-      ingress:
-      internal:
-        aliases:
-          - fhir-internal
 
   keycloak:
     # use tini as init
