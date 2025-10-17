@@ -1,6 +1,6 @@
 {
   "id": "398b7d56-52c3-4487-85a0-1633abe3fb87",
-  "realm": "wa-verify",
+  "realm": "wahs",
   "displayName": "WA Health Summary",
   "displayNameHtml": "WA Health Summary",
   "notBefore": 0,
@@ -60,7 +60,7 @@
       },
       {
         "id": "768492e8-3929-46a6-b5b4-ee1dd05feebd",
-        "name": "default-roles-wa-verify",
+        "name": "default-roles-wahs",
         "description": "${role_default-roles}",
         "composite": true,
         "composites": {
@@ -93,7 +93,7 @@
   "groups": [],
   "defaultRole": {
     "id": "768492e8-3929-46a6-b5b4-ee1dd05feebd",
-    "name": "default-roles-wa-verify",
+    "name": "default-roles-wahs",
     "description": "${role_default-roles}",
     "composite": true,
     "clientRole": false,
