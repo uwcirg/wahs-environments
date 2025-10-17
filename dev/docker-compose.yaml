@@ -154,7 +154,7 @@ services:
     environment:
       VITE_API_BASE: https://shl-server.${BASE_DOMAIN}/api
       VITE_INTERMEDIATE_FHIR_SERVER_BASE: https://fhir.${BASE_DOMAIN}/fhir
-      VITE_AUTH_URL: https://keycloak.${BASE_DOMAIN}/realms/ips
+      VITE_AUTH_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs
       VITE_AUTH_CLIENT_ID: shl_creator
       VITE_AUTH_REDIRECT_URI: https://shl-creator.${BASE_DOMAIN}/auth
       VITE_AUTH_SILENT_REDIRECT_URI: http://shl-creator.${BASE_DOMAIN}/silent_redirect_callback.html
