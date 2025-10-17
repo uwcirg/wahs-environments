@@ -994,20 +994,6 @@
     "xXSSProtection": "1; mode=block",
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
-  "smtpServer": {
-    "password": "**********",
-    "replyToDisplayName": "",
-    "starttls": "true",
-    "auth": "true",
-    "port": "465",
-    "host": "mail.cirg.washington.edu",
-    "replyTo": "",
-    "from": "wa-verify-dev@cirg.washington.edu",
-    "fromDisplayName": "WA HS-dev",
-    "envelopeFrom": "",
-    "ssl": "true",
-    "user": "keycloak-cosri-dev@cirg.washington.edu"
-  },
   "loginTheme": "waverifyplus",
   "accountTheme": "",
   "adminTheme": "",
