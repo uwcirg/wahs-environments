@@ -2,7 +2,7 @@
   "realm": "ips",
   "users": [
     {
-      "id": "ips-test-user",
+      "id": "ips-test-user-1",
       "createdTimestamp": 1709134971000,
       "username": "test",
       "enabled": true,
@@ -13,7 +13,7 @@
       "email": "test@test.test",
       "credentials": [
         {
-          "id": "ips-test-user-password",
+          "id": "ips-test-user-1-password",
           "type": "password",
           "createdDate": 1709134971000,
           "secretData": "{\"value\":\"7Vmr6+Io+gJJrH+EOcmOJXshJ0tMI5x0rQ1wkCYgSCA=\",\"salt\":\"LR0DSOi5850zn9tNFYS1uw==\",\"additionalParameters\":{}}",
@@ -31,7 +31,7 @@
       "groups": []
     },
     {
-      "id": "ips-staff-user",
+      "id": "ips-staff-user-1",
       "createdTimestamp": 1709134971000,
       "username": "staff",
       "enabled": true,
@@ -42,7 +42,7 @@
       "email": "stafftest@test.test",
       "credentials": [
         {
-          "id": "ips-staff-user-password",
+          "id": "ips-staff-user-1-password",
           "type": "password",
           "createdDate": 1709134971000,
           "secretData" : "{\"value\":\"86AHPCF6rK9rndTfdST1Ijn4XQ6xC4/uoa3Q0S0O5nE=\",\"salt\":\"veo4rv2pmuiMhWcJgJmw7A==\",\"additionalParameters\":{}}",
