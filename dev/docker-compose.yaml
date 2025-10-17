@@ -94,8 +94,9 @@ services:
       KC_DB_PASSWORD: postgres
 
       # https://www.keycloak.org/server/reverseproxy
-      KC_PROXY: edge
-      # trust traefik Host header validation
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY_HEADERS: xforwarded
+      # trust traefik Host headers
       KC_HOSTNAME_STRICT: "false"
 
       KEYCLOAK_ADMIN: admin
