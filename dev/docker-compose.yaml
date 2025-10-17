@@ -69,7 +69,7 @@ services:
   keycloak:
     # use tini as init
     init: true
-    image: quay.io/keycloak/keycloak:${KEYCLOAK_IMAGE_TAG:-22.0}
+    image: quay.io/keycloak/keycloak:${KEYCLOAK_IMAGE_TAG:-23.0}
     labels:
       - traefik.enable=true
       - traefik.http.routers.keycloak-${COMPOSE_PROJECT_NAME}.rule=Host(`keycloak.${BASE_DOMAIN}`)
