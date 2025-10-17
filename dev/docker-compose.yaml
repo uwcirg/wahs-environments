@@ -28,6 +28,12 @@ services:
       hapi.fhir.client_id_strategy: ANY
       # enable all endpoints for operational data
       management.endpoints.web.exposure.include: "*"
+
+      # enable IPS; use latest version
+      hapi.fhir.ips_enabled: "true"
+      hapi.fhir.implementationguides.ips_2_0_0.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
+      hapi.fhir.implementationguides.ips_2_0_0.name: hl7.fhir.uv.ips
+      hapi.fhir.implementationguides.ips_2_0_0.version: 2.0.0
     volumes:
       # docker image does not contain any appropriate HTTP client
       # use busybox from host as `wget`
