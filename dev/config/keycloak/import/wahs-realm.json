@@ -1172,7 +1172,7 @@
   "supportedLocales": [],
   "authenticationFlows": [
     {
-      "id": "2be65e42-899f-4148-9ec1-f7b9d2be4bac",
+      "id": "4f47c30f-1089-4bfb-86dc-1108e8e9ff3d",
       "alias": "Account verification options",
       "description": "Method with which to verity the existing account",
       "providerId": "basic-flow",
@@ -1198,7 +1198,7 @@
       ]
     },
     {
-      "id": "67cace87-25eb-465a-a6a5-ce6e671b385d",
+      "id": "256809d0-5016-461b-a9c7-6882b2815e52",
       "alias": "Browser - Conditional OTP",
       "description": "Flow to determine if the OTP is required for the authentication",
       "providerId": "basic-flow",
@@ -1224,7 +1224,33 @@
       ]
     },
     {
-      "id": "a77199ee-4dfe-4ef6-a22d-626c18bba2eb",
+      "id": "89c1b6ea-447b-4c88-aafd-d448072f3100",
+      "alias": "Browser - Conditional Organization",
+      "description": "Flow to determine if the organization identity-first login is to be used",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": true,
+      "authenticationExecutions": [
+        {
+          "authenticator": "conditional-user-configured",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 10,
+          "autheticatorFlow": false,
+          "userSetupAllowed": false
+        },
+        {
+          "authenticator": "organization",
+          "authenticatorFlow": false,
+          "requirement": "ALTERNATIVE",
+          "priority": 20,
+          "autheticatorFlow": false,
+          "userSetupAllowed": false
+        }
+      ]
+    },
+    {
+      "id": "a8e2b2f4-d0af-4433-a4d5-1c84166f7539",
       "alias": "Direct Grant - Conditional OTP",
       "description": "Flow to determine if the OTP is required for the authentication",
       "providerId": "basic-flow",
@@ -1250,7 +1276,33 @@
       ]
     },
     {
-      "id": "25bd53f5-1f39-40fe-afd3-350bb8e97c36",
+      "id": "7b104723-bffd-4441-aa2c-131bcb65acd0",
+      "alias": "First Broker Login - Conditional Organization",
+      "description": "Flow to determine if the authenticator that adds organization members is to be used",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": true,
+      "authenticationExecutions": [
+        {
+          "authenticator": "conditional-user-configured",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 10,
+          "autheticatorFlow": false,
+          "userSetupAllowed": false
+        },
+        {
+          "authenticator": "idp-add-organization-member",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 20,
+          "autheticatorFlow": false,
+          "userSetupAllowed": false
+        }
+      ]
+    },
+    {
+      "id": "4c1f8547-f40a-48e4-b6cb-f04002b3e7eb",
       "alias": "First broker login - Conditional OTP",
       "description": "Flow to determine if the OTP is required for the authentication",
       "providerId": "basic-flow",
@@ -1276,7 +1328,7 @@
       ]
     },
     {
-      "id": "ed265be5-0e08-40b8-8339-724e364a8a7b",
+      "id": "07249ee2-d63d-4c2e-857d-0f36a57d8345",
       "alias": "Handle Existing Account",
       "description": "Handle what to do if there is existing account with same email/username like authenticated identity provider",
       "providerId": "basic-flow",
@@ -1302,7 +1354,24 @@
       ]
     },
     {
-      "id": "3c949a0a-37c3-4785-ba30-4dea960803df",
+      "id": "7f485cd2-7f64-4bd4-8fbb-3f9c7afb003b",
+      "alias": "Organization",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": true,
+      "authenticationExecutions": [
+        {
+          "authenticatorFlow": true,
+          "requirement": "CONDITIONAL",
+          "priority": 10,
+          "autheticatorFlow": true,
+          "flowAlias": "Browser - Conditional Organization",
+          "userSetupAllowed": false
+        }
+      ]
+    },
+    {
+      "id": "c39c8bdf-79be-444b-b97c-26a485078721",
       "alias": "Reset - Conditional OTP",
       "description": "Flow to determine if the OTP should be reset or not. Set to REQUIRED to force.",
       "providerId": "basic-flow",
@@ -1328,7 +1397,7 @@
       ]
     },
     {
-      "id": "a65b4de9-aff2-4ba8-91d7-64137910df2a",
+      "id": "5c9d41e9-4223-4f56-8eb9-4978f0b43ea7",
       "alias": "User creation or linking",
       "description": "Flow for the existing/non-existing user alternatives",
       "providerId": "basic-flow",
@@ -1355,7 +1424,7 @@
       ]
     },
     {
-      "id": "a4342351-fdda-4436-aa97-5b0eb61d37a1",
+      "id": "952f2e7c-feab-44b1-b7c7-077b58cba172",
       "alias": "Verify Existing Account by Re-authentication",
       "description": "Reauthentication of existing account",
       "providerId": "basic-flow",
@@ -1381,7 +1450,7 @@
       ]
     },
     {
-      "id": "f0e454a0-a185-4cc7-ba87-0593700026ef",
+      "id": "5be75bfa-fe15-4432-815f-86c67644013f",
       "alias": "browser",
       "description": "Browser based authentication",
       "providerId": "basic-flow",
@@ -1415,6 +1484,14 @@
         {
           "authenticatorFlow": true,
           "requirement": "ALTERNATIVE",
+          "priority": 26,
+          "autheticatorFlow": true,
+          "flowAlias": "Organization",
+          "userSetupAllowed": false
+        },
+        {
+          "authenticatorFlow": true,
+          "requirement": "ALTERNATIVE",
           "priority": 30,
           "autheticatorFlow": true,
           "flowAlias": "forms",
@@ -1423,7 +1500,7 @@
       ]
     },
     {
-      "id": "8dd99858-111d-4442-8fe5-77b70bee7139",
+      "id": "d608b3ad-d16d-42e2-8dcf-84fb28b5738c",
       "alias": "clients",
       "description": "Base authentication for clients",
       "providerId": "client-flow",
@@ -1465,7 +1542,7 @@
       ]
     },
     {
-      "id": "03fa412f-1f99-4c2d-bee7-0d5e62aaaafa",
+      "id": "9fc1756d-2957-4053-b591-cd126bf58a7b",
       "alias": "direct grant",
       "description": "OpenID Connect Resource Owner Grant",
       "providerId": "basic-flow",
@@ -1499,7 +1576,7 @@
       ]
     },
     {
-      "id": "2128fd2a-ed60-4c45-a0c5-2941c928727f",
+      "id": "a6df2b95-b3e9-4f4b-82d4-96e1968fe8f1",
       "alias": "docker auth",
       "description": "Used by Docker clients to authenticate against the IDP",
       "providerId": "basic-flow",
@@ -1517,7 +1594,7 @@
       ]
     },
     {
-      "id": "e7e1d740-5b37-437a-9ff2-a11a619a6beb",
+      "id": "e3c928c1-803b-4d73-8e16-e96fa62cb7f7",
       "alias": "first broker login",
       "description": "Actions taken after first broker login with identity provider account, which is not yet linked to any Keycloak account",
       "providerId": "basic-flow",
@@ -1540,11 +1617,19 @@
           "autheticatorFlow": true,
           "flowAlias": "User creation or linking",
           "userSetupAllowed": false
+        },
+        {
+          "authenticatorFlow": true,
+          "requirement": "CONDITIONAL",
+          "priority": 50,
+          "autheticatorFlow": true,
+          "flowAlias": "First Broker Login - Conditional Organization",
+          "userSetupAllowed": false
         }
       ]
     },
     {
-      "id": "42c1eae7-208b-411d-b2e2-750a8277d5cb",
+      "id": "cf12cbd7-5cf5-4ba8-8797-28b1a878f129",
       "alias": "forms",
       "description": "Username, password, otp and other auth forms.",
       "providerId": "basic-flow",
@@ -1570,7 +1655,7 @@
       ]
     },
     {
-      "id": "64332bfe-80a0-409d-be19-4e456c23edfe",
+      "id": "ffa65812-aa00-4a54-8b83-8747c1f1f95a",
       "alias": "registration",
       "description": "Registration flow",
       "providerId": "basic-flow",
@@ -1589,7 +1674,7 @@
       ]
     },
     {
-      "id": "bca389d7-a2ff-4a5f-8301-7d7ffbc9a919",
+      "id": "68bc01e4-0109-4360-8e7e-7ba23e6550f7",
       "alias": "registration form",
       "description": "Registration form",
       "providerId": "form-flow",
@@ -1631,7 +1716,7 @@
       ]
     },
     {
-      "id": "22a4c51c-1298-40c7-a85b-08829822068e",
+      "id": "543c6cee-7ec1-4100-9a3d-cedcc3ba1f9f",
       "alias": "reset credentials",
       "description": "Reset credentials for a user if they forgot their password or something",
       "providerId": "basic-flow",
@@ -1673,7 +1758,7 @@
       ]
     },
     {
-      "id": "375025a5-0590-4955-bbd1-f5b8f2433095",
+      "id": "3b41fa42-2236-49a1-9908-5bc108283ecb",
       "alias": "saml ecp",
       "description": "SAML ECP Profile Authentication Flow",
       "providerId": "basic-flow",
