@@ -192,7 +192,9 @@
         "roles",
         "profile",
         "basic",
-        "email"
+        "email",
+        "online_access",
+        "openid"
       ],
       "optionalClientScopes": [
         "address",
@@ -727,6 +729,22 @@
         "consent.screen.text": "${offlineAccessScopeConsentText}",
         "display.on.consent.screen": "true"
       }
+    },
+    {
+      "id": "b1a46bef-7912-4ea4-acd9-b06c07ee8b34",
+      "name": "online_access",
+      "description": "OpenID Connect built-in scope: online_access",
+      "protocol": "openid-connect",
+      "attributes": {
+        "consent.screen.text": "${onlineAccessScopeConsentText}",
+        "display.on.consent.screen": "true"
+      }
+    },
+    {
+      "id": "b1a46bef-7912-4ea4-acd9-73c44d258ace",
+      "name": "openid",
+      "description": "OpenID Connect built-in scope: openid",
+      "protocol": "openid-connect"
     },
     {
       "id": "51cac635-1acf-422a-b23d-54abcd4e110d",
