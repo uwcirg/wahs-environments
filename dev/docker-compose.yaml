@@ -1,5 +1,4 @@
 ---
-version: "3.7"
 services:
   db:
     image: postgres:${POSTGRES_IMAGE_TAG:-17}
@@ -75,7 +74,7 @@ services:
   keycloak:
     # use tini as init
     init: true
-    image: quay.io/keycloak/keycloak:${KEYCLOAK_IMAGE_TAG:-22.0}
+    image: quay.io/keycloak/keycloak:${KEYCLOAK_IMAGE_TAG:-26.1}
     labels:
       - traefik.enable=true
       - traefik.http.routers.keycloak-${COMPOSE_PROJECT_NAME}.rule=Host(`keycloak.${BASE_DOMAIN}`)
@@ -101,8 +100,9 @@ services:
       KC_DB_PASSWORD: postgres
 
       # https://www.keycloak.org/server/reverseproxy
-      KC_PROXY: edge
-      # trust traefik Host header validation
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY_HEADERS: xforwarded
+      # trust traefik Host headers
       KC_HOSTNAME_STRICT: "false"
 
       KEYCLOAK_ADMIN: admin
@@ -128,10 +128,10 @@ services:
       fhir-auth.env
     environment:
       UPSTREAM_SERVER: http://fhir-internal:8080
-      OIDC_AUTHORIZE_URL: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/auth
-      OIDC_TOKEN_URI: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/token
-      OIDC_TOKEN_INTROSPECTION_URI: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/token/introspect
-      JWKS_URL: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/certs
+      OIDC_AUTHORIZE_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/auth
+      OIDC_TOKEN_URI: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/token
+      OIDC_TOKEN_INTROSPECTION_URI: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/token/introspect
+      JWKS_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/certs
       PATH_WHITELIST: /fhir/metadata,/fhir/.well-known/smart-configuration
     labels:
       - traefik.enable=true
@@ -160,14 +160,14 @@ services:
     environment:
       VITE_API_BASE: https://shl-server.${BASE_DOMAIN}/api
       VITE_INTERMEDIATE_FHIR_SERVER_BASE: https://fhir.${BASE_DOMAIN}/fhir
-      VITE_AUTH_URL: https://keycloak.${BASE_DOMAIN}/realms/ips
+      VITE_AUTH_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs
       VITE_AUTH_CLIENT_ID: shl_creator
       VITE_AUTH_REDIRECT_URI: https://shl-creator.${BASE_DOMAIN}/auth
       VITE_AUTH_SILENT_REDIRECT_URI: http://shl-creator.${BASE_DOMAIN}/silent_redirect_callback.html
       VITE_AUTH_POST_LOGOUT_URI: https://shl-creator.${BASE_DOMAIN}
 
-      VITE_AUTH_LOGOUT_ENDPOINT: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/logout
-      VITE_AUTH_CHECK_SESSION_IFRAME: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/login-status-iframe.html
+      VITE_AUTH_LOGOUT_ENDPOINT: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/logout
+      VITE_AUTH_CHECK_SESSION_IFRAME: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/login-status-iframe.html
       VITE_LOG_URL: https://shl-server.${BASE_DOMAIN}/api/log
       VITE_SYSTEM_URL: https://shl-creator.${BASE_DOMAIN}
 
@@ -187,7 +187,7 @@ services:
     image: ghcr.io/uwcirg/smart.health.links-server:${SHL_SERVER_IMAGE_TAG:-latest}
     environment:
       PUBLIC_URL: https://shl-server.${BASE_DOMAIN}
-      JWKS_URL: https://keycloak.${BASE_DOMAIN}/realms/ips/protocol/openid-connect/certs
+      JWKS_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/certs
     labels:
       - traefik.enable=true
       - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.rule=Host(`shl-server.${BASE_DOMAIN}`)
