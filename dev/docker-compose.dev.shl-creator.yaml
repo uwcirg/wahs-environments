@@ -1,7 +1,7 @@
 services:
   shl-creator:
     environment:
-      SERVER_NAME: shl-creator.${BASE_DOMAIN}
+      SERVER_NAME: ${BASE_DOMAIN}
     command: npm run dev
     volumes:
       - ${SHL_CREATOR_CHECKOUT_DIR}/src:/opt/app/src

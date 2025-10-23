@@ -108,8 +108,8 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
 
-      KEYCLOAK_SHL_CREATOR_BASE: https://shl-creator.${BASE_DOMAIN}
-      KEYCLOAK_SHL_CREATOR_LOGOUT_REDIRECT_URL: https://shl-creator.${BASE_DOMAIN}
+      KEYCLOAK_SHL_CREATOR_BASE: https://${BASE_DOMAIN}
+      KEYCLOAK_SHL_CREATOR_LOGOUT_REDIRECT_URL: https://${BASE_DOMAIN}
 
     env_file:
       - keycloak.env
@@ -162,21 +162,21 @@ services:
       VITE_INTERMEDIATE_FHIR_SERVER_BASE: https://fhir.${BASE_DOMAIN}/fhir
       VITE_AUTH_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs
       VITE_AUTH_CLIENT_ID: shl_creator
-      VITE_AUTH_REDIRECT_URI: https://shl-creator.${BASE_DOMAIN}/auth
-      VITE_AUTH_SILENT_REDIRECT_URI: http://shl-creator.${BASE_DOMAIN}/silent_redirect_callback.html
-      VITE_AUTH_POST_LOGOUT_URI: https://shl-creator.${BASE_DOMAIN}
+      VITE_AUTH_REDIRECT_URI: https://${BASE_DOMAIN}/auth
+      VITE_AUTH_SILENT_REDIRECT_URI: http://${BASE_DOMAIN}/silent_redirect_callback.html
+      VITE_AUTH_POST_LOGOUT_URI: https://${BASE_DOMAIN}
 
       VITE_AUTH_LOGOUT_ENDPOINT: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/logout
       VITE_AUTH_CHECK_SESSION_IFRAME: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/login-status-iframe.html
       VITE_LOG_URL: https://shl-server.${BASE_DOMAIN}/api/log
-      VITE_SYSTEM_URL: https://shl-creator.${BASE_DOMAIN}
+      VITE_SYSTEM_URL: https://${BASE_DOMAIN}
 
-      REDIRECT_URI: https://shl-creator.${BASE_DOMAIN}/create
+      REDIRECT_URI: https://${BASE_DOMAIN}/create
     env_file:
       shl-creator.env
     labels:
       - traefik.enable=true
-      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.rule=Host(`shl-creator.${BASE_DOMAIN}`)
+      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.rule=Host(`${BASE_DOMAIN}`)
       - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
       - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.tls=true
       - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
