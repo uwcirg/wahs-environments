@@ -176,6 +176,7 @@ ul, p {
   color: #9b0202;
 }
 input[type="text"],
+input[type="email"],
 input[type="password"] {
   display: block;
   width: 100%;
