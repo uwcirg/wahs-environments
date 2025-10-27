@@ -29,6 +29,8 @@ services:
       management.endpoints.web.exposure.include: "*"
       # enable cascading delete
       hapi.fhir.allow_cascading_deletes: "true"
+      # relax reference constraints to accommodate external resources
+      hapi.fhir.enforce_referential_integrity_on_write: "false"
 
       # enable IPS; use latest version
       hapi.fhir.ips_enabled: "true"
@@ -72,7 +74,6 @@ services:
       - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowMethods=HEAD,GET,OPTIONS,PATCH,POST,PUT,DELETE
       - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept
       - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.middlewares=fhir-${COMPOSE_PROJECT_NAME}-cors
-
   keycloak:
     # use tini as init
     init: true
@@ -161,7 +162,7 @@ services:
     image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-latest}
     environment:
       VITE_API_BASE: https://shl-server.${BASE_DOMAIN}/api
-      VITE_INTERMEDIATE_FHIR_SERVER_BASE: https://fhir.${BASE_DOMAIN}/fhir
+      VITE_INTERMEDIATE_FHIR_SERVER_BASE: https://fhir-auth.${BASE_DOMAIN}/fhir
       VITE_AUTH_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs
       VITE_AUTH_CLIENT_ID: shl_creator
       VITE_AUTH_REDIRECT_URI: https://${BASE_DOMAIN}/auth
