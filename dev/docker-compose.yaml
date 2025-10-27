@@ -57,7 +57,23 @@ services:
       internal:
         aliases:
           - fhir-internal
+      # expose HAPI to internet
+      ingress:
+    labels:
+      # unauthenticated route
+      - traefik.enable=true
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.rule=Host(`fhir.${BASE_DOMAIN}`)
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
 
+       # add CORS middleware, configured to return `Access-Control-Allow-Origin: *`
+      # NB accessControlAllowOrigin is deprecated, but not noted in docs
+      # https://github.com/traefik/traefik/issues/8796
+      - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowOriginList=*
+      # allow all verbs used by FHIR REST
+      - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowMethods=HEAD,GET,OPTIONS,PATCH,POST,PUT,DELETE
+      - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.middlewares=fhir-${COMPOSE_PROJECT_NAME}-cors
   keycloak:
     # use tini as init
     init: true
