@@ -13,8 +13,6 @@ services:
     extends:
       file: ../base/docker-compose.yaml
       service: keycloak
-    environment:
-      KEYCLOAK_ADMIN_PASSWORD: admin
     env_file:
       keycloak.env
 
