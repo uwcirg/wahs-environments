@@ -1,0 +1,72 @@
+---
+services:
+  db:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: db
+
+  fhir:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: fhir
+    networks:
+      # expose HAPI to internet
+      ingress:
+    labels:
+      # unauthenticated route
+      - traefik.enable=true
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.rule=Host(`fhir.${BASE_DOMAIN}`)
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
+
+       # add CORS middleware, configured to return `Access-Control-Allow-Origin: *`
+      # NB accessControlAllowOrigin is deprecated, but not noted in docs
+      # https://github.com/traefik/traefik/issues/8796
+      - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowOriginList=*
+      # allow all verbs used by FHIR REST
+      - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowMethods=HEAD,GET,OPTIONS,PATCH,POST,PUT,DELETE
+      - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept
+      - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.middlewares=fhir-${COMPOSE_PROJECT_NAME}-cors
+
+  keycloak:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: keycloak
+    environment:
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    env_file:
+      keycloak.env
+
+  fhir-auth:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: fhir-auth
+    env_file:
+      fhir-auth.env
+
+  shl-creator:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: shl-creator
+    env_file:
+      shl-creator.env
+
+  shl-server:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: shl-server
+    env_file:
+      shl-server.env
+
+volumes:
+  db-data: {}
+  shl-server-data: {}
+
+networks:
+  # internal network for backing services
+  internal:
+
+  # ingress network
+  ingress:
+    external: true
+    name: external_web
