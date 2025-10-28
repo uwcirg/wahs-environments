@@ -95,8 +95,6 @@ services:
       KEYCLOAK_SHL_CREATOR_BASE: https://${BASE_DOMAIN}
       KEYCLOAK_SHL_CREATOR_LOGOUT_REDIRECT_URL: https://${BASE_DOMAIN}
 
-    env_file:
-      - keycloak.env
     volumes:
       - ./config/keycloak/import/:/opt/keycloak/data/import:ro
       - ./config/keycloak/themes/:/opt/keycloak/themes:ro
@@ -108,8 +106,6 @@ services:
 
   fhir-auth:
     image: ghcr.io/uwcirg/jwt-proxy:${PROXY_IMAGE_TAG:-latest}
-    env_file:
-      fhir-auth.env
     environment:
       UPSTREAM_SERVER: http://fhir-internal:8080
       OIDC_AUTHORIZE_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/auth
@@ -157,8 +153,6 @@ services:
       VITE_SYSTEM_URL: https://${BASE_DOMAIN}
 
       REDIRECT_URI: https://${BASE_DOMAIN}/create
-    env_file:
-      shl-creator.env
     labels:
       - traefik.enable=true
       - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.rule=Host(`${BASE_DOMAIN}`)
@@ -183,16 +177,3 @@ services:
       - shl-server-data:/app/db
     networks:
       - ingress
-
-volumes:
-  db-data: {}
-  shl-server-data: {}
-
-networks:
-  # internal network for backing services
-  internal:
-
-  # ingress network
-  ingress:
-    external: true
-    name: external_web

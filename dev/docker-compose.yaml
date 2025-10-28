@@ -57,3 +57,16 @@ services:
       service: shl-server
     env_file:
       shl-server.env
+
+volumes:
+  db-data: {}
+  shl-server-data: {}
+
+networks:
+  # internal network for backing services
+  internal:
+
+  # ingress network
+  ingress:
+    external: true
+    name: external_web
