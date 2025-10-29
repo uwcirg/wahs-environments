@@ -107,8 +107,20 @@
       ]
     }
   ],
+  "clientScopeMappings": {
+    "account": [
+      {
+        "client": "account-console",
+        "roles": [
+          "manage-account",
+          "view-groups"
+        ]
+      }
+    ]
+  },
   "clients": [
     {
+      "id": "23d33b1c-6d75-478a-8243-68e919880398",
       "clientId": "shl_creator",
       "name": "SMART Health Links Creator",
       "description": "",
@@ -986,6 +998,7 @@
       "hideOnLogin": false,
       "firstBrokerLoginFlowAlias": "first broker login",
       "config": {
+        "syncMode": "LEGACY",
         "clientSecret": "${KEYCLOAK_GOOGLE_IDP_CLIENT_SECRET}",
         "clientId": "${KEYCLOAK_GOOGLE_IDP_CLIENT_ID}"
       }
