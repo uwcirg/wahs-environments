@@ -1,0 +1,47 @@
+---
+services:
+  db:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: db
+
+  fhir:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: fhir
+  keycloak:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: keycloak
+    env_file:
+      keycloak.env
+
+  fhir-auth:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: fhir-auth
+    env_file:
+      fhir-auth.env
+
+  shl-creator:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: shl-creator
+
+  shl-server:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: shl-server
+
+volumes:
+  db-data: {}
+  shl-server-data: {}
+
+networks:
+  # internal network for backing services
+  internal:
+
+  # ingress network
+  ingress:
+    external: true
+    name: external_web
