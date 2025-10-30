@@ -1,62 +1,15 @@
 ---
 services:
   db:
-    image: postgres:${POSTGRES_IMAGE_TAG:-17}
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    volumes:
-      - db-data:/var/lib/postgresql/data
-      # mount db creation script in place for bootstrap
-      - ./config/db:/docker-entrypoint-initdb.d
-    networks:
-      - internal
+    extends:
+      file: ../base/docker-compose.yaml
+      service: db
 
   fhir:
-    image: hapiproject/hapi:${FHIR_IMAGE_TAG:-v8.0.0}
-    environment:
-      spring.datasource.url: jdbc:postgresql://db:5432/hapifhir
-      spring.datasource.username: postgres
-      spring.datasource.password: postgres
-      spring.datasource.driverClassName: org.postgresql.Driver
-      spring.jpa.properties.hibernate.dialect: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
-
-      hapi.fhir.bulk_export_enabled: "true"
-      hapi.fhir.bulk_import_enabled: "true"
-      # allow direct assignment of resource IDs in any format
-      hapi.fhir.client_id_strategy: ANY
-      # enable all endpoints for operational data
-      management.endpoints.web.exposure.include: "*"
-      # enable cascading delete
-      hapi.fhir.allow_cascading_deletes: "true"
-      # relax reference constraints to accommodate external resources
-      hapi.fhir.enforce_referential_integrity_on_write: "false"
-
-      # enable IPS; use latest version
-      hapi.fhir.ips_enabled: "true"
-      hapi.fhir.implementationguides.ips_2_0_0.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
-      hapi.fhir.implementationguides.ips_2_0_0.name: hl7.fhir.uv.ips
-      hapi.fhir.implementationguides.ips_2_0_0.version: 2.0.0
-    volumes:
-      # docker image does not contain any appropriate HTTP client
-      # use busybox from host as `wget`
-      - /usr/bin/busybox:/usr/bin/wget:ro
-    healthcheck:
-      test:
-        - CMD
-        - wget
-        - --spider
-        - --quiet
-        - http://localhost:8080/actuator/health
-      start_period: 2m
-    expose:
-      - 8080
-    depends_on:
-      - db
+    extends:
+      file: ../base/docker-compose.yaml
+      service: fhir
     networks:
-      internal:
-        aliases:
-          - fhir-internal
       # expose HAPI to internet
       ingress:
     labels:
@@ -75,132 +28,34 @@ services:
       - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept
       - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.middlewares=fhir-${COMPOSE_PROJECT_NAME}-cors
   keycloak:
-    # use tini as init
-    init: true
-    image: quay.io/keycloak/keycloak:${KEYCLOAK_IMAGE_TAG:-26.1}
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.keycloak-${COMPOSE_PROJECT_NAME}.rule=Host(`keycloak.${BASE_DOMAIN}`)
-      - traefik.http.routers.keycloak-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
-      - traefik.http.routers.keycloak-${COMPOSE_PROJECT_NAME}.tls=true
-      - traefik.http.routers.keycloak-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
-    command:
-      # https://www.keycloak.org/server/importExport#_importing_a_realm_during_startup
-      # recent Keycloak releases do not allow importing the master realm on startup; use old properties as workaround
-      # https://github.com/keycloak/keycloak/issues/12544#issuecomment-1191846726
-      - -Dkeycloak.migration.action=import
-      - -Dkeycloak.migration.provider=dir
-      - -Dkeycloak.migration.dir=/opt/keycloak/data/import
-      - -Dkeycloak.migration.strategy=IGNORE_EXISTING
-      - -Dkeycloak.migration.replace-placeholders=true
-      - start
-      - --log-console-output=json
+    extends:
+      file: ../base/docker-compose.yaml
+      service: keycloak
     environment:
-      # https://www.keycloak.org/server/all-config
-      KC_DB: postgres
-      KC_DB_URL_HOST: db
-      KC_DB_USERNAME: postgres
-      KC_DB_PASSWORD: postgres
-
-      # https://www.keycloak.org/server/reverseproxy
-      KC_HTTP_ENABLED: "true"
-      KC_PROXY_HEADERS: xforwarded
-      # trust traefik Host headers
-      KC_HOSTNAME_STRICT: "false"
-
-      KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-
-      KEYCLOAK_SHL_CREATOR_BASE: https://${BASE_DOMAIN}
-      KEYCLOAK_SHL_CREATOR_LOGOUT_REDIRECT_URL: https://${BASE_DOMAIN}
-
     env_file:
-      - keycloak.env
-    volumes:
-      - ./config/keycloak/import/:/opt/keycloak/data/import:ro
-      - ./config/keycloak/themes/:/opt/keycloak/themes:ro
-    depends_on:
-      - db
-    networks:
-      - ingress
-      - internal
+      keycloak.env
 
   fhir-auth:
-    image: ghcr.io/uwcirg/jwt-proxy:${PROXY_IMAGE_TAG:-latest}
+    extends:
+      file: ../base/docker-compose.yaml
+      service: fhir-auth
     env_file:
       fhir-auth.env
-    environment:
-      UPSTREAM_SERVER: http://fhir-internal:8080
-      OIDC_AUTHORIZE_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/auth
-      OIDC_TOKEN_URI: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/token
-      OIDC_TOKEN_INTROSPECTION_URI: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/token/introspect
-      JWKS_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/certs
-      PATH_WHITELIST: /fhir/metadata,/fhir/.well-known/smart-configuration
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.fhir-auth-${COMPOSE_PROJECT_NAME}.rule=Host(`fhir-auth.${BASE_DOMAIN}`)
-      - traefik.http.routers.fhir-auth-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
-      - traefik.http.routers.fhir-auth-${COMPOSE_PROJECT_NAME}.tls=true
-      - traefik.http.routers.fhir-auth-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
-
-      # TODO review if necessary for shl-creator service in same deploy
-      # add CORS middleware, configured to return `Access-Control-Allow-Origin: *`
-      # NB accessControlAllowOrigin is deprecated, but not noted in docs
-      # https://github.com/traefik/traefik/issues/8796
-      - traefik.http.middlewares.fhir-auth-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowOriginList=*
-      # allow all verbs used by FHIR REST
-      - traefik.http.middlewares.fhir-auth-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowMethods=HEAD,GET,OPTIONS,PATCH,POST,PUT,DELETE
-      - traefik.http.middlewares.fhir-auth-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept,Cache-Control
-      - traefik.http.routers.fhir-auth-${COMPOSE_PROJECT_NAME}.middlewares=fhir-auth-${COMPOSE_PROJECT_NAME}-cors
-    depends_on:
-      - fhir
-    networks:
-      - ingress
-      - internal
 
   shl-creator:
-    image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-latest}
-    environment:
-      VITE_API_BASE: https://shl-server.${BASE_DOMAIN}/api
-      VITE_INTERMEDIATE_FHIR_SERVER_BASE: https://fhir-auth.${BASE_DOMAIN}/fhir
-      VITE_AUTH_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs
-      VITE_AUTH_CLIENT_ID: shl_creator
-      VITE_AUTH_REDIRECT_URI: https://${BASE_DOMAIN}/auth
-      VITE_AUTH_SILENT_REDIRECT_URI: http://${BASE_DOMAIN}/silent_redirect_callback.html
-      VITE_AUTH_POST_LOGOUT_URI: https://${BASE_DOMAIN}
-      VITE_AUTH_LOGOUT_ENDPOINT: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/logout
-      VITE_AUTH_CHECK_SESSION_IFRAME: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/login-status-iframe.html
-      
-      VITE_LOG_URL: https://shl-server.${BASE_DOMAIN}/api/log
-      VITE_SYSTEM_URL: https://${BASE_DOMAIN}
-
-      REDIRECT_URI: https://${BASE_DOMAIN}/data
+    extends:
+      file: ../base/docker-compose.yaml
+      service: shl-creator
     env_file:
       shl-creator.env
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.rule=Host(`${BASE_DOMAIN}`)
-      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
-      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.tls=true
-      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
-    networks:
-      - ingress
 
   shl-server:
-    image: ghcr.io/uwcirg/smart.health.links-server:${SHL_SERVER_IMAGE_TAG:-latest}
-    environment:
-      PUBLIC_URL: https://shl-server.${BASE_DOMAIN}
-      JWKS_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/certs
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.rule=Host(`shl-server.${BASE_DOMAIN}`)
-      - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
-      - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.tls=true
-      - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
-    volumes:
-      - shl-server-data:/app/db
-    networks:
-      - ingress
+    extends:
+      file: ../base/docker-compose.yaml
+      service: shl-server
+    env_file:
+      shl-server.env
 
 volumes:
   db-data: {}
