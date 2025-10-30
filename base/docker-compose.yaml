@@ -29,6 +29,8 @@ services:
       management.endpoints.web.exposure.include: "*"
       # enable cascading delete
       hapi.fhir.allow_cascading_deletes: "true"
+      # relax missing reference requirements to allow external data quirks
+      hapi.fhir.enforce_referential_integrity_on_write: "false"
 
       # enable IPS; use latest version
       hapi.fhir.ips_enabled: "true"
