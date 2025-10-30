@@ -27,7 +27,6 @@ services:
       - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowMethods=HEAD,GET,OPTIONS,PATCH,POST,PUT,DELETE
       - traefik.http.middlewares.fhir-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept
       - traefik.http.routers.fhir-${COMPOSE_PROJECT_NAME}.middlewares=fhir-${COMPOSE_PROJECT_NAME}-cors
-
   keycloak:
     extends:
       file: ../base/docker-compose.yaml
