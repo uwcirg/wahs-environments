@@ -153,7 +153,7 @@
             </#if>
             </div>
         </div>
-        <p><a href="https://smart-health-links-ips.cirg.washington.edu">Learn more about WA Health Summary</a></p>
+        <p><a href="${properties.infoUrl!}">Learn more about WA Health Summary</a></p>
     </div>
   </div>
 </body>
