@@ -1,6 +1,6 @@
 :root {
   --body-bg-color: #e7f1ff;
-  --primary-color: #rgb(34, 72, 156);
+  --primary-color: rgb(34, 72, 156);
   --primary-hover-color: #254325;
   --section-border-color: #dcdfdc;
   --button-primary-color: #af4507;
