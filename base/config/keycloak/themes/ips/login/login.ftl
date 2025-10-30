@@ -87,7 +87,7 @@
 
                                 <ul class="${properties.kcFormSocialAccountListClass!} <#if social.providers?size gt 3>${properties.kcFormSocialAccountListGridClass!}</#if>">
                                         <#list social.providers as p>
-                                                <li>
+                                                <li style="width: 100%">
                                                         <a id="social-${p.alias}" class="${properties.kcFormSocialAccountListButtonClass!} <#if social.providers?size gt 3>${properties.kcFormSocialAccountGridItem!}</#if>"
                                                            type="button" href="${p.loginUrl}">
                                                                 <#if p.iconClasses?has_content>
