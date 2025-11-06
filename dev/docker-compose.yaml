@@ -36,6 +36,11 @@ services:
     env_file:
       keycloak.env
 
+  fhir-smoketest:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: fhir-smoketest
+
   fhir-auth:
     extends:
       file: ../base/docker-compose.yaml
