@@ -9,6 +9,7 @@ services:
     extends:
       file: ../base/docker-compose.yaml
       service: fhir
+
   keycloak:
     extends:
       file: ../base/docker-compose.yaml
@@ -27,11 +28,15 @@ services:
     extends:
       file: ../base/docker-compose.yaml
       service: shl-creator
-
+    env_file:
+      shl-creator.env
+  
   shl-server:
     extends:
       file: ../base/docker-compose.yaml
       service: shl-server
+    env_file:
+      shl-server.env
 
 volumes:
   db-data: {}
