@@ -115,6 +115,7 @@ services:
       OIDC_TOKEN_INTROSPECTION_URI: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/token/introspect
       JWKS_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/certs
       PATH_WHITELIST: /fhir/metadata,/fhir/.well-known/smart-configuration
+      POLICIES_DIR: /opt/app/jwt_proxy/policies
     labels:
       - traefik.enable=true
       - traefik.http.routers.fhir-auth-${COMPOSE_PROJECT_NAME}.rule=Host(`fhir-auth.${BASE_DOMAIN}`)
