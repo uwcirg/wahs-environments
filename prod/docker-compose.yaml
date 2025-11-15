@@ -24,6 +24,11 @@ services:
     env_file:
       fhir-auth.env
 
+  fhir-smoketest:
+    extends:
+      file: ../base/docker-compose.yaml
+      service: fhir-smoketest
+
   shl-creator:
     extends:
       file: ../base/docker-compose.yaml

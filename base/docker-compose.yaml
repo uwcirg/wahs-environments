@@ -58,6 +58,17 @@ services:
         aliases:
           - fhir-internal
 
+  fhir-smoketest:
+    image: ghcr.io/uwcirg/fhir-summary-smoketest:${FHIR_SMOKETEST_IMAGE_TAG:-latest}
+    depends_on:
+      fhir:
+        condition: service_healthy
+        restart: true
+    environment:
+      FHIR_BASE_URL: http://fhir-internal:8080/fhir
+    networks:
+      - internal
+
   keycloak:
     # use tini as init
     init: true
