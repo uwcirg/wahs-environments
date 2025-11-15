@@ -1,0 +1,3 @@
+[submodule "logserver"]
+	path = logserver
+	url = https://github.com/uwcirg/logserver
