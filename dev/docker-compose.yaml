@@ -9,6 +9,11 @@ services:
     extends:
       file: ../base/docker-compose.yaml
       service: fhir
+    environment:
+      # enable all endpoints; required for configprops and env endpoints
+      management.endpoints.enabled-by-default: "true"
+      # show detailed healthcheck info, including postgres and disk usage information
+      management.endpoint.health.show-details: "always"
     networks:
       # expose HAPI to internet
       ingress:
