@@ -27,6 +27,8 @@ services:
       hapi.fhir.client_id_strategy: ANY
       # enable all endpoints for operational data
       management.endpoints.web.exposure.include: "*"
+      # always return links with https
+      hapi.fhir.use_apache_address_strategy_https: "true"
       # enable cascading delete
       hapi.fhir.allow_cascading_deletes: "true"
       # relax missing reference requirements to allow external data quirks
