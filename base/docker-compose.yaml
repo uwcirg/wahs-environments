@@ -33,7 +33,9 @@ services:
       management.endpoint.health.show-details: "always"
 
       # always return links with https
-      hapi.fhir.use_apache_address_strategy_https: "false"
+      hapi.fhir.use_apache_address_strategy: "true"
+      hapi.fhir.use_apache_address_strategy_https: "true"
+
       # enable cascading delete
       hapi.fhir.allow_cascading_deletes: "true"
       # relax missing reference requirements to allow external data quirks
