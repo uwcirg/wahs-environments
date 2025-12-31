@@ -154,7 +154,7 @@
             </#if>
             </div>
         </div>
-        <p><a href="${properties.infoUrl!}">Learn more about ${realm.displayName!}</a></p>
+        <p><a target="_blank" href="${properties.infoUrl!}">Learn more about ${realm.displayName!}</a></p>
     </div>
   </div>
 </body>

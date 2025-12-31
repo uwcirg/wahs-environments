@@ -2,6 +2,8 @@
   --body-bg-color: #e7f1ff;
   --primary-color: rgb(34, 72, 156);
   --primary-hover-color: #254325;
+  --secondary-color: #777777;
+  --secondary-hover-color: #333333;
   --section-border-color: #dcdfdc;
   --button-primary-color: #af4507;
   --button-primary-hover-color: #883505;
@@ -83,12 +85,6 @@ span,
 applet,
 object,
 iframe,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
 p,
 blockquote,
 pre,
@@ -375,6 +371,32 @@ h1#kc-page-title {
 #kc-social-providers {
   margin-top: -10px;
 }
+
+#kc-terms-text {
+  width: 100%;
+  max-height: 14rem;
+  padding: 1em;
+  border: 1px solid darkgray;
+  border-radius: 10px;
+  background-color: var(--pf-global--palette--black-150);
+  overflow: auto;
+}
+
+#kc-terms-text h2 {
+  margin-top: 0;
+}
+
+#kc-terms-text p, #kc-terms-text li {
+  margin-top: 0;
+  font-size: var(--small-body-font-size);
+  color: var(--pf-global--palette--black-800);
+}
+
+#kc-terms-text ul {
+  list-style: disc inside;
+  padding-left: 1em;
+}
+
 .card-pf {
   background: #fff;
   margin: 0 auto;
@@ -399,6 +421,14 @@ h1#kc-page-title {
 .error-text {
   color: red;
   font-size: var(--small-body-font-size);
+}
+
+input.cancel-button {
+  background-color: var(--pf-global--palette--black-600);
+}
+input.cancel-button:hover {
+  color: var(--pf-global--palette--black-200);
+  background-color: var(--pf-global--palette--black-700);
 }
 
 .gsi-material-button {

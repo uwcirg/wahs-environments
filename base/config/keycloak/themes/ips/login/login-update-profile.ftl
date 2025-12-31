@@ -10,27 +10,40 @@
 
             <script>
                 document.addEventListener("DOMContentLoaded", () => {
-                const emailInput = document.getElementById("email");
-                const emailFormGroup = emailInput?.closest("div.form-group");
-                if (emailFormGroup) {
-                    emailFormGroup.style.display = "none";
-                }
-    
-                const ghostCheckbox = document.getElementById("terms_and_conditions");
-                if (!ghostCheckbox) return;
-                const ghostFormGroup = ghostCheckbox?.closest("div.form-group");
-                ghostFormGroup.style.display = "none";
-    
-                const checkbox = document.getElementsByName("terms-conditions")[0];
+                    const emailInput = document.getElementById("email");
+                    const emailFormGroup = emailInput?.closest("div.form-group");
+                    if (emailFormGroup) {
+                        emailFormGroup.style.display = "none";
+                    }
+        
+                    const ghostCheckbox = document.getElementById("terms_and_conditions");
+                    if (!ghostCheckbox) return;
+                    const ghostFormGroup = ghostCheckbox?.closest("div.form-group");
+                    ghostFormGroup.style.display = "none";
+        
+                    const checkbox = document.getElementsByName("terms-conditions")[0];
+                    
+                    if (!checkbox || !ghostCheckbox) return;
+                    checkbox.addEventListener("change", () => {
+                        ghostCheckbox.value = checkbox.checked
+                        ? Math.floor(Date.now() / 1000).toString()
+                        : "";
+                    });
+                    
+                    const checkboxField = checkbox.closest("div.pf-c-check");
+                    const checkboxFieldParent = checkboxField.parentNode;
+                    const termsTextBox = document.getElementById("kc-terms-text");
                 
-                if (!checkbox || !ghostCheckbox) return;
-                checkbox.addEventListener("change", () => {
-                    ghostCheckbox.value = checkbox.checked
-                    ? Math.floor(Date.now() / 1000).toString()
-                    : "";
-                });
+                    checkboxFieldParent.insertBefore(termsTextBox, checkboxField);
+                    termsTextBox.insertBefore(checkboxField, null);
+                
                 });
             </script>
+            
+            <div id="kc-terms-text">
+                ${kcSanitize(msg("termsText"))?no_esc}
+                <br>
+            </div>
 
             <div class="${properties.kcFormGroupClass!}">
                 <div id="kc-form-options" class="${properties.kcFormOptionsClass!}">

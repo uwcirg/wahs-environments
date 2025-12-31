@@ -73,19 +73,22 @@
 
             <#if termsAcceptanceRequired??>
                 <div class="form-group">
-                    <div class="${properties.kcInputWrapperClass!}">
-                        ${msg("termsTitle")}
-                        <div id="kc-registration-terms-text">
-                            ${kcSanitize(msg("termsText"))?no_esc}
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
                     <div class="${properties.kcLabelWrapperClass!}">
-                        <input type="checkbox" id="termsAccepted" name="termsAccepted" class="${properties.kcCheckboxInputClass!}"
+                        <label class="${properties.kcLabelClass!}">${msg("termsTitle")}</label>
+                    </div>
+                    <div class="${properties.kcLabelWrapperClass!} subtitle">
+                        Please read and accept the terms below to continue.
+                    </div>
+                    <div class="${properties.kcInputWrapperClass!}">
+                        <div id="kc-terms-text">
+                            ${kcSanitize(msg("termsText"))?no_esc}
+                            <br>
+                            <input type="checkbox" id="termsAccepted" name="termsAccepted" class="${properties.kcCheckboxInputClass!}"
                                 aria-invalid="<#if messagesPerField.existsError('termsAccepted')>true</#if>"
-                        />
-                        <label for="termsAccepted" class="${properties.kcLabelClass!}">${msg("acceptTerms")}</label>
+                            />
+                            <label for="termsAccepted" class="${properties.kcLabelClass!}">${msg("acceptTerms")}</label>
+                            <br>
+                        </div>
                     </div>
                     <div style="display: none" class="${properties.kcLabelWrapperClass!}">
                         <input type="checkbox" id="terms-conditions" name="terms-conditions" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"

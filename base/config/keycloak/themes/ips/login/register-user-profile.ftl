@@ -61,45 +61,47 @@
 
             <#if termsAcceptanceRequired??>
                 <div class="form-group">
+                    <div class="${properties.kcLabelWrapperClass!}">
+                        <label class="${properties.kcLabelClass!}">${msg("termsTitle")}</label>
+                    </div>
+                    <div class="${properties.kcLabelWrapperClass!} subtitle">
+                        Please read and accept the terms below to continue.
+                    </div>
                     <div class="${properties.kcInputWrapperClass!}">
-                        ${msg("termsTitle")}
-                        <div id="kc-registration-terms-text">
+                        <div id="kc-terms-text">
                             ${kcSanitize(msg("termsText"))?no_esc}
+                            <br>
+                            <input type="checkbox" id="termsAccepted" name="termsAccepted" class="${properties.kcCheckboxInputClass!}"
+                                aria-invalid="<#if messagesPerField.existsError('termsAccepted')>true</#if>"
+                            />
+                            <label for="termsAccepted" class="${properties.kcLabelClass!}">${msg("acceptTerms")}</label>
+                            <br>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                  <div class="${properties.kcLabelWrapperClass!}">
-                    <input type="checkbox" id="termsAccepted" name="termsAccepted" class="${properties.kcCheckboxInputClass!}"
-                      aria-invalid="<#if messagesPerField.existsError('termsAccepted')>true</#if>"
-                    />
-                    <label for="termsAccepted" class="${properties.kcLabelClass!}">${msg("acceptTerms")}</label>
-                  </div>
-                  <div style="display: none" class="${properties.kcLabelWrapperClass!}">
-                      <input type="checkbox" id="terms-conditions" name="terms-conditions" class="${properties.kcCheckboxInputClass!}"
-                              aria-invalid="<#if messagesPerField.existsError('terms-conditions')>true</#if>"
-                      />
-                      <label for="terms-conditions" class="${properties.kcLabelClass!}">${msg("acceptTerms")}</label>
-                      <input type="text" id="terms_and_conditions" name="terms_and_conditions" class="${properties.kcTextInputClass!}"
-                          aria-invalid="<#if messagesPerField.existsError('terms_and_conditions')>true</#if>"
-                          value='${msg("acceptTerms")}'
-                      />
-                      <label for="terms_and_conditions" class="${properties.kcLabelClass!}">${msg("acceptTerms")}</label>
-                  </div>
-                  <script>
-                      document.addEventListener('DOMContentLoaded', () => {
-                          const checkbox = document.getElementById('termsAccepted');
-                          const ghostCheckbox = document.getElementById('terms-conditions');
-                          const ghostTextbox = document.getElementById('terms_and_conditions');
-                          if (!checkbox) return;
-                          checkbox.addEventListener('change', () => {
-                              ghostCheckbox.checked = checkbox.checked;
-                              ghostTextbox.value = checkbox.checked
-                                  ? Math.floor(Date.now() / 1000).toString()
-                                  : '';
-                          });
-                      });
-                  </script>
+                    <div style="display: none" class="${properties.kcLabelWrapperClass!}">
+                        <input type="checkbox" id="terms-conditions" name="terms-conditions" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
+                                aria-invalid="<#if messagesPerField.existsError('terms-conditions')>true</#if>"
+                        />
+                        <label for="terms-conditions" class="${properties.kcLabelClass!}">${msg("acceptTerms")}</label>
+                        <input type="text" id="terms_and_conditions" name="terms_and_conditions" class="${properties.kcTextInputClass!}"
+                            aria-invalid="<#if messagesPerField.existsError('terms_and_conditions')>true</#if>"
+                        />
+                        <label for="terms_and_conditions" class="${properties.kcLabelClass!}">${msg("acceptTerms")}</label>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const checkbox = document.getElementById('termsAccepted');
+                            const ghostCheckbox = document.getElementById('terms-conditions');
+                            const ghostTextbox = document.getElementById('terms_and_conditions');
+                            
+                            checkbox.addEventListener('change', () => {
+                                ghostCheckbox.checked = checkbox.checked;
+                                ghostTextbox.value = checkbox.checked
+                                    ? Math.floor(Date.now() / 1000).toString()
+                                    : '';
+                            });
+                        });
+                    </script>
                 </div>
             </#if>
 

@@ -29,8 +29,21 @@
                     ? Math.floor(Date.now() / 1000).toString()
                     : "";
                 });
+
+                const checkboxField = checkbox.closest("div.pf-c-check");
+                const checkboxFieldParent = checkboxField.parentNode;
+                const termsTextBox = document.getElementById("kc-terms-text");
+
+                checkboxFieldParent.insertBefore(termsTextBox, checkboxField);
+                termsTextBox.insertBefore(checkboxField, null);
+
               });
             </script>
+
+            <div id="kc-terms-text">
+              ${kcSanitize(msg("termsText"))?no_esc}
+              <br>
+            </div>
 
             <div class="${properties.kcFormGroupClass!}">
                 <div id="kc-form-options" class="${properties.kcFormOptionsClass!}">
