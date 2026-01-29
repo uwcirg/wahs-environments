@@ -38,7 +38,7 @@
 <body class="${properties.kcBodyClass!}">
     <div class="${properties.kcLoginClass!}">
         <header id="header">
-            <img src="${url.resourcesPath}/img/${properties.companyLogo!}" alt="Company Logo">
+            <img src="${url.resourcesPath}/img/${properties.companyLogo!}" alt="Company Logo" style="height:100%">
         </header>
         <div id="kc-header" class="${properties.kcHeaderClass!}">
             <div id="kc-header-wrapper" class="${properties.kcHeaderWrapperClass!}">
