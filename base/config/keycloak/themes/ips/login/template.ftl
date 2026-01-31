@@ -131,6 +131,8 @@
                 </div>
             </#if>
 
+            <#nested "socialProviders">
+
             <#nested "form">
 
             <#if auth?has_content && auth.showTryAnotherWayLink()>
@@ -143,8 +145,6 @@
                 </form>
             </#if>
 
-            <#nested "socialProviders">
-
             <#if displayInfo>
                 <div id="kc-info" class="${properties.kcSignUpClass!}">
                     <div id="kc-info-wrapper" class="${properties.kcInfoAreaWrapperClass!}">
@@ -154,6 +154,7 @@
             </#if>
             </div>
         </div>
+        <hr>
         <p><a target="_blank" href="${properties.infoUrl!}">Learn more about ${realm.displayName!}</a></p>
     </div>
   </div>
