@@ -2,6 +2,7 @@
   --body-bg-color: #e7f1ff;
   --primary-color: rgb(34, 72, 156);
   --primary-hover-color: rgb(16, 47, 112);
+  --primary-disabled-color: rgb(87, 109, 155);
   --secondary-color: #777777;
   --secondary-hover-color: #333333;
   --section-border-color: #dcdfdc;
@@ -209,6 +210,10 @@ input[type="submit"] {
 }
 input[type="submit"]:hover {
   background-color: var(--primary-hover-color);
+}
+input[type="submit"]:disabled {
+  background-color: var(--primary-disabled-color);
+  cursor: not-allowed;
 }
 a {
   color: var(--link-color);
@@ -455,6 +460,7 @@ h1#kc-page-title {
 .subtitle {
   font-size: var(--small-body-font-size);
   color: var(--label-color);
+  margin-bottom: 0 0 1em 0.1em;
 }
 
 input.cancel-button {

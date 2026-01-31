@@ -22,12 +22,21 @@
                 ghostFormGroup.style.display = "none";
 
                 const checkbox = document.getElementsByName("terms-conditions")[0];
+
+                const registerButton = document.querySelector('#kc-form-buttons input[type="submit"]');
+                const buttonTitle = registerButton.title;
+                const updateRegisterButton = () => {
+                    registerButton.disabled = !checkbox.checked;
+                    registerButton.title = checkbox.checked ? buttonTitle : 'Please accept the terms and conditions.'
+                };
+                updateRegisterButton();
                 
                 if (!checkbox || !ghostCheckbox) return;
                 checkbox.addEventListener("change", () => {
                   ghostCheckbox.value = checkbox.checked
                     ? Math.floor(Date.now() / 1000).toString()
                     : "";
+                  updateRegisterButton();
                 });
 
                 const checkboxField = checkbox.closest("div.pf-c-check");
@@ -53,7 +62,7 @@
                 </div>
 
                 <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
-                    <input style="margin-bottom: 1em" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("doRegister")}" />
+                    <input style="margin-bottom: 1em" class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="submit" title="${msg("doRegister")}" value="${msg("doRegister")}" />
                 </div>
             </div>
         </form>
