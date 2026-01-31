@@ -1,7 +1,7 @@
 :root {
   --body-bg-color: #e7f1ff;
   --primary-color: rgb(34, 72, 156);
-  --primary-hover-color: #254325;
+  --primary-hover-color: rgb(16, 47, 112);
   --secondary-color: #777777;
   --secondary-hover-color: #333333;
   --section-border-color: #dcdfdc;
@@ -192,7 +192,7 @@ input[type="password"] {
   border-radius: 4px;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-  margin-bottom: 24px;
+  margin-bottom: 1rem;
   box-sizing: border-box;
 }
 input[type="submit"] {
@@ -368,8 +368,16 @@ h1#kc-page-title {
   margin-right: 0;
   color: #777;
 }
+
+#kc-registration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 #kc-social-providers {
-  margin-top: -10px;
+  margin-top: 1rem;
 }
 
 #kc-terms-text {
@@ -413,14 +421,40 @@ h1#kc-page-title {
   margin-bottom: 16px;
 }
 
-.subtitle {
-  font-size: var(--small-body-font-size);
-  color: var(--label-color);
+.divider-center-text {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.75rem; /* Tailwind default spacing feel */
+  margin: 1rem 0;
+}
+
+.divider-line {
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.divider-text {
+  transform: translateY(-1px);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+  white-space: nowrap;
+  padding: 0 0.5rem;
 }
 
 .error-text {
   color: red;
   font-size: var(--small-body-font-size);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: var(--small-body-font-size);
+  color: var(--label-color);
 }
 
 input.cancel-button {
