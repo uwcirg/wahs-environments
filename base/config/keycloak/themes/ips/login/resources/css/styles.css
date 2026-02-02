@@ -460,7 +460,7 @@ h1#kc-page-title {
 .subtitle {
   font-size: var(--small-body-font-size);
   color: var(--label-color);
-  margin-bottom: 0 0 1em 0.1em;
+  margin: 0 0 1em 0.1em;
 }
 
 input.cancel-button {
