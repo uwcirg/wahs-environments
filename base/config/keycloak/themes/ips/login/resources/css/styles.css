@@ -250,6 +250,7 @@ button.pf-m-success:hover {
 .btn-checkbox:has(input:checked){
   background: var(--success-color);
   color: white;
+  border: none;
 }
 .btn-checkbox:has(input:not(:checked)) i.bi-check-square-fill {
   display: none;
