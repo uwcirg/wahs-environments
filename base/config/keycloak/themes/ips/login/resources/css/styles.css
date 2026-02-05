@@ -507,10 +507,13 @@ h1#kc-page-title {
   margin: 0 0 1em 0.1em;
 }
 
-input.cancel-button {
+button.cancel-button {
   background-color: var(--pf-global--palette--black-600);
+  font-size: var(--default-body-font-size);
+  color: white;
+  width: 100%;
 }
-input.cancel-button:hover {
+button.cancel-button:hover {
   color: var(--pf-global--palette--black-200);
   background-color: var(--pf-global--palette--black-700);
 }

@@ -23,9 +23,13 @@
           </label>
       </div>
     </div>
-    <div id="kc-form-buttons" class="${properties.kcFormGroupClass!}">
-      <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" name="accept" id="kc-accept" type="submit" value="${msg("doContinue")}"/>
-      <input class="cancel-button ${properties.kcButtonClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" name="cancel" id="kc-decline" type="submit" value="${msg("doDecline")}"/>
+    <div id="kc-form-buttons" class="${properties.kcFormGroupClass!} row">
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <button class="cancel-button ${properties.kcButtonClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" name="cancel" id="kc-decline" type="submit">${msg("doDecline")}</button>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" name="accept" id="kc-accept" type="submit" value="${msg("doConfirm")}"/>
+      </div>
     </div>
   </form>
   <script>
@@ -47,6 +51,7 @@
     });
     
     function updateTerms() {
+      const termsCheckbox = document.getElementById('terms-conditions');
       updateRegisterButton(termsCheckbox.checked);
     };
   </script>
