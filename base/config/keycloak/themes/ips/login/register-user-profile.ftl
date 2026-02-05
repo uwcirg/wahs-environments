@@ -70,7 +70,7 @@
                     <div class="${properties.kcInputWrapperClass!}">
                         <div id="kc-terms-text">
                             ${kcSanitize(msg("termsText"))?no_esc}
-                            <div class="${properties.kcFormButtonsClass!}">
+                            <div class="${properties.kcFormButtonsClass!} p-0">
                                 <label class="btn-checkbox ${properties.kcButtonClass!}" style="width: 100%">
                                     <input type="checkbox" id="terms-conditions" name="terms-conditions" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
                                         aria-invalid="<#if messagesPerField.existsError('terms-conditions')>true</#if>"

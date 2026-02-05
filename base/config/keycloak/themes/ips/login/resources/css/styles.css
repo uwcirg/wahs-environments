@@ -617,3 +617,7 @@ input.cancel-button:hover {
   background-color: #303030;
   opacity: 8%;
 }
+
+.p-0 {
+  padding: 0 !important;
+}

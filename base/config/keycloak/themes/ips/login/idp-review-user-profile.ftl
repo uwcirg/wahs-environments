@@ -57,7 +57,7 @@
 
             <div id="kc-terms-text">
                 ${kcSanitize(msg("termsText"))?no_esc}
-                <div class="${properties.kcFormButtonsClass!}">
+                <div class="${properties.kcFormButtonsClass!} p-0">
                     <label class="btn-checkbox ${properties.kcButtonClass!}" style="width: 100%">
                         <i class="bi-square"></i>
                         <i class="bi-check-square-fill"></i>
