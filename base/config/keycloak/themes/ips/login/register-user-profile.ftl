@@ -85,6 +85,9 @@
                         </div>
                     </div>
                     <div style="display: none" class="${properties.kcLabelWrapperClass!}">
+                        <input type="checkbox" id="termsAccepted" name="termsAccepted" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
+                            aria-invalid="<#if messagesPerField.existsError('termsAccepted')>true</#if>"
+                        />
                         <input type="text" id="terms_and_conditions" name="terms_and_conditions" class="${properties.kcTextInputClass!}"
                             aria-invalid="<#if messagesPerField.existsError('terms_and_conditions')>true</#if>"
                         />
@@ -110,6 +113,8 @@
                         
                         function updateTerms() {
                             const termsCheckbox = document.getElementById('terms-conditions');
+                            const termsSecondaryCheckbox = document.getElementById('termsAccepted');
+                            termsSecondaryCheckbox.checked = termsCheckbox.checked;
                             const termsTextInput = document.getElementById('terms_and_conditions');
                             termsTextInput.value = termsCheckbox.checked ? Math.floor(Date.now() / 1000).toString() : '';
                             updateRegisterButton(termsCheckbox.checked);
