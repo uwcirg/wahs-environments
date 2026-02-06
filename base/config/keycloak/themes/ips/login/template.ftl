@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="robots" content="noindex, nofollow">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="font" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/fonts/bootstrap-icons.woff2?8d200481aa7f02a2d63a331fc782cfaf" type="font/woff2" crossorigin="anonymous">
     <#if properties.meta?has_content>
         <#list properties.meta?split(' ') as meta>
             <meta name="${meta?split('==')[0]}" content="${meta?split('==')[1]}"/>
@@ -131,6 +132,8 @@
                 </div>
             </#if>
 
+            <#nested "socialProviders">
+
             <#nested "form">
 
             <#if auth?has_content && auth.showTryAnotherWayLink()>
@@ -143,8 +146,6 @@
                 </form>
             </#if>
 
-            <#nested "socialProviders">
-
             <#if displayInfo>
                 <div id="kc-info" class="${properties.kcSignUpClass!}">
                     <div id="kc-info-wrapper" class="${properties.kcInfoAreaWrapperClass!}">
@@ -154,6 +155,7 @@
             </#if>
             </div>
         </div>
+        <hr>
         <p><a target="_blank" href="${properties.infoUrl!}">Learn more about ${realm.displayName!}</a></p>
     </div>
   </div>

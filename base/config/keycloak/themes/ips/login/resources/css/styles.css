@@ -1,13 +1,15 @@
 :root {
   --body-bg-color: #e7f1ff;
-  --primary-color: rgb(34, 72, 156);
-  --primary-hover-color: #254325;
+  --primary-color: #22489C;
+  --primary-hover-color: #102F70;
+  --primary-disabled-color: #677BA5;
+  /* --primary-disabled-text-color: #999999; */
   --secondary-color: #777777;
   --secondary-hover-color: #333333;
   --section-border-color: #dcdfdc;
   --button-primary-color: #af4507;
   --button-primary-hover-color: #883505;
-  --title-color: rgb(34, 72, 156);
+  --title-color: var(--primary-color);
   --label-color: #71757b;
   --link-color: #1994d0;
   --link-hover-color: #126994;
@@ -15,6 +17,8 @@
   --text-default-color: #444;
   --default-body-font-size: 16px;
   --small-body-font-size: 14px;
+  --success-color: #008000;
+  --success-hover-color: #006400;
 }
 body {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
@@ -192,24 +196,69 @@ input[type="password"] {
   border-radius: 4px;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-  margin-bottom: 24px;
+  margin-bottom: 1rem;
   box-sizing: border-box;
 }
-input[type="submit"] {
+button.pf-m-primary, button.pf-m-success, input[type="submit"] {
   background-image: none;
-  background-color: var(--primary-color);
   padding: 0 12px;
   width: 100%;
-  font-size: var(--default-body-font-size);
   color: #fff;
   box-sizing: border-box;
   box-shadow: none;
   border: 0;
   display: block;
 }
-input[type="submit"]:hover {
+button.pf-m-primary:hover, input[type="submit"]:hover {
   background-color: var(--primary-hover-color);
 }
+button.pf-m-primary:disabled, input[type="submit"]:disabled {
+  background-color: var(--primary-disabled-color);
+  /* color: var(--primary-disabled-text-color); */
+  cursor: not-allowed;
+}
+button.pf-m-primary, input[type="submit"] {
+  background-color: var(--primary-color);
+  font-size: var(--default-body-font-size);
+}
+button.pf-m-success {
+  background-color: var(--success-color);
+}
+button.pf-m-success:hover {
+  background-color: var(--success-hover-color);
+}
+
+.btn-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: static;
+  margin: 1rem 0;
+}
+
+.btn-checkbox input {
+  display: none;
+}
+
+.btn-checkbox-text {
+  margin-left: 0.5em;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.btn-checkbox:has(input:checked){
+  background: var(--success-color);
+  color: white;
+  border: none;
+}
+.btn-checkbox:has(input:not(:checked)) i.bi-check-square-fill {
+  display: none;
+}
+.btn-checkbox:has(input:checked) i.bi-square {
+  display: none;
+}
+
 a {
   color: var(--link-color);
   text-decoration: none;
@@ -368,13 +417,21 @@ h1#kc-page-title {
   margin-right: 0;
   color: #777;
 }
+
+#kc-registration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
 #kc-social-providers {
-  margin-top: -10px;
+  margin-top: 1rem;
 }
 
 #kc-terms-text {
   width: 100%;
-  max-height: 14rem;
+  max-height: 16rem;
   padding: 1em;
   border: 1px solid darkgray;
   border-radius: 10px;
@@ -413,9 +470,26 @@ h1#kc-page-title {
   margin-bottom: 16px;
 }
 
-.subtitle {
-  font-size: var(--small-body-font-size);
-  color: var(--label-color);
+.divider-center-text {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.75rem; /* Tailwind default spacing feel */
+  margin: 1rem 0;
+}
+
+.divider-line {
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.divider-text {
+  transform: translateY(-1px);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #64748b;
+  white-space: nowrap;
+  padding: 0 0.5rem;
 }
 
 .error-text {
@@ -423,10 +497,23 @@ h1#kc-page-title {
   font-size: var(--small-body-font-size);
 }
 
-input.cancel-button {
-  background-color: var(--pf-global--palette--black-600);
+.form-group {
+  margin-bottom: 1rem;
 }
-input.cancel-button:hover {
+
+.subtitle {
+  font-size: var(--small-body-font-size);
+  color: var(--label-color);
+  margin: 0 0 1em 0.1em;
+}
+
+button.cancel-button {
+  background-color: var(--pf-global--palette--black-600);
+  font-size: var(--default-body-font-size);
+  color: white;
+  width: 100%;
+}
+button.cancel-button:hover {
   color: var(--pf-global--palette--black-200);
   background-color: var(--pf-global--palette--black-700);
 }
@@ -532,4 +619,8 @@ input.cancel-button:hover {
 .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
   background-color: #303030;
   opacity: 8%;
+}
+
+.p-0 {
+  padding: 0 !important;
 }

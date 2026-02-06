@@ -70,37 +70,50 @@
                     <div class="${properties.kcInputWrapperClass!}">
                         <div id="kc-terms-text">
                             ${kcSanitize(msg("termsText"))?no_esc}
-                            <br>
-                            <input type="checkbox" id="termsAccepted" name="termsAccepted" class="${properties.kcCheckboxInputClass!}"
-                                aria-invalid="<#if messagesPerField.existsError('termsAccepted')>true</#if>"
-                            />
-                            <label for="termsAccepted" class="${properties.kcLabelClass!}">${msg("acceptTerms")}</label>
-                            <br>
+                            <div class="${properties.kcFormButtonsClass!} p-0">
+                                <label class="btn-checkbox ${properties.kcButtonClass!}" style="width: 100%">
+                                    <input type="checkbox" id="termsAccepted" name="termsAccepted" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
+                                        aria-invalid="<#if messagesPerField.existsError('termsAccepted')>true</#if>"
+                                    />
+                                    <i class="bi-square"></i>
+                                    <i class="bi-check-square-fill"></i>
+                                    <span class="btn-checkbox-text">
+                                        ${msg("acceptTerms")}
+                                    </span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div style="display: none" class="${properties.kcLabelWrapperClass!}">
-                        <input type="checkbox" id="terms-conditions" name="terms-conditions" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
-                                aria-invalid="<#if messagesPerField.existsError('terms-conditions')>true</#if>"
-                        />
-                        <label for="terms-conditions" class="${properties.kcLabelClass!}">${msg("acceptTerms")}</label>
                         <input type="text" id="terms_and_conditions" name="terms_and_conditions" class="${properties.kcTextInputClass!}"
                             aria-invalid="<#if messagesPerField.existsError('terms_and_conditions')>true</#if>"
                         />
                         <label for="terms_and_conditions" class="${properties.kcLabelClass!}">${msg("acceptTerms")}</label>
                     </div>
                     <script>
+                        let submitButton;
+                        let defaultSubmitButtonTitle;
+                        function updateRegisterButton(termsAccepted) {
+                            if (!submitButton) return;
+                            submitButton.disabled = !termsAccepted;
+                            submitButton.title = termsAccepted ? defaultSubmitButtonTitle : 'Please accept the terms and conditions.'
+                        }
+                        
                         document.addEventListener('DOMContentLoaded', () => {
-                            const checkbox = document.getElementById('termsAccepted');
-                            const ghostCheckbox = document.getElementById('terms-conditions');
-                            const ghostTextbox = document.getElementById('terms_and_conditions');
-                            
-                            checkbox.addEventListener('change', () => {
-                                ghostCheckbox.checked = checkbox.checked;
-                                ghostTextbox.value = checkbox.checked
-                                    ? Math.floor(Date.now() / 1000).toString()
-                                    : '';
-                            });
+                            submitButton = document.querySelector('#kc-form-buttons input[type="submit"]');
+                            if (submitButton) {
+                                defaultSubmitButtonTitle = submitButton.title;
+                                updateRegisterButton(false);
+                            }
+                            document.getElementById('termsAccepted').addEventListener('change', updateTerms);
                         });
+                        
+                        function updateTerms() {
+                            const termsCheckbox = document.getElementById('termsAccepted');
+                            const termsTextInput = document.getElementById('terms_and_conditions');
+                            termsTextInput.value = termsCheckbox.checked ? Math.floor(Date.now() / 1000).toString() : '';
+                            updateRegisterButton(termsCheckbox.checked);
+                        };
                     </script>
                 </div>
             </#if>
@@ -113,7 +126,7 @@
                 </div>
 
                 <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
-                    <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("doRegister")}"/>
+                    <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="submit" title="${msg("doRegister")}" value="${msg("doRegister")}"/>
                 </div>
             </div>
         </form>
