@@ -15,43 +15,34 @@
                   const emailFormGroup = emailInput?.closest("div.form-group");
                   if (emailFormGroup) emailFormGroup.style.display = "none";
               
-                  // Hide terms and conditions timestamp form group
                   const termsTimestampTextInput = document.getElementById("terms_and_conditions");
-                  const termsTimestampTextInputFormGroup = termsTimestampTextInput?.closest("div.form-group");
-                  if (termsTimestampTextInputFormGroup) termsTimestampTextInputFormGroup.style.display = "none";
-              
-                  //
-                  const checkbox = document.getElementsByName("terms-conditions")[0];
-              
+                  const checkbox = document.getElementById("termsAccepted");
+                  if (!checkbox || !termsTimestampTextInput) {
+                      console.warn("Terms and conditions input not found");
+                      return;
+                  }
+                  
+                  const termsTextBox = document.getElementById("kc-terms-text");
+                  
+                  // Move the terms content next to the terms timestamp field and hide the timestamp
+                  if (termsTimestampTextInput) termsTimestampTextInput.style.display = "none";
+                  termsTimestampTextInput?.parentNode?.append(termsTextBox);
+                  
                   const registerButton = document.querySelector('#kc-form-buttons input[type="submit"]');
-                  const buttonTitle = registerButton.title;
+                  const buttonTitle = registerButton?.title;
                   const updateRegisterButton = () => {
-                      if (!registerButton) return;
+                      if (!registerButton || !checkbox) return;
                       registerButton.disabled = !checkbox.checked;
                       registerButton.title = checkbox.checked ? buttonTitle : 'Please accept the terms and conditions.';
                   };
                   updateRegisterButton();
                   
-                  if (!checkbox || !termsTimestampTextInput) return;
                   checkbox.addEventListener("change", () => {
                       termsTimestampTextInput.value = checkbox.checked
                       ? Math.floor(Date.now() / 1000).toString()
                       : "";
                       updateRegisterButton();
                   });
-                  
-                  const checkboxField = checkbox.closest("div.pf-c-check");
-                  const checkboxFieldInput = checkboxField.querySelector("input[type='checkbox']");
-                  const checkboxFieldParent = checkboxField.parentNode;
-                  const termsTextBox = document.getElementById("kc-terms-text");
-                  const termsButtonCheckbox = termsTextBox?.querySelector(".btn-checkbox");
-              
-                  // Insert the terms and conditions text next to the checkbox field
-                  checkboxFieldParent.append(termsTextBox);
-                  // Move the checkbox into the terms and conditions text's button checkbox input, where it's hidden
-                  termsButtonCheckbox.append(checkboxFieldInput);
-                  // Finally, remove the checkbox field
-                  checkboxField.remove();
               });
             </script>
 
@@ -59,6 +50,9 @@
                 ${kcSanitize(msg("termsText"))?no_esc}
                 <div class="${properties.kcFormButtonsClass!} p-0">
                     <label class="btn-checkbox ${properties.kcButtonClass!}" style="width: 100%">
+                        <input type="checkbox" id="termsAccepted" name="termsAccepted" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
+                            aria-invalid="<#if messagesPerField.existsError('termsAccepted')>true</#if>"
+                        />
                         <i class="bi-square"></i>
                         <i class="bi-check-square-fill"></i>
                         <span class="btn-checkbox-text">

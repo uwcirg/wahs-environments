@@ -84,8 +84,8 @@
                             ${kcSanitize(msg("termsText"))?no_esc}
                             <div class="${properties.kcFormButtonsClass!} p-0">
                                 <label class="btn-checkbox ${properties.kcButtonClass!}" style="width: 100%">
-                                    <input type="checkbox" id="terms-conditions" name="terms-conditions" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
-                                        aria-invalid="<#if messagesPerField.existsError('terms-conditions')>true</#if>"
+                                    <input type="checkbox" id="termsAccepted" name="termsAccepted" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
+                                        aria-invalid="<#if messagesPerField.existsError('termsAccepted')>true</#if>"
                                     />
                                     <i class="bi-square"></i>
                                     <i class="bi-check-square-fill"></i>
@@ -97,9 +97,6 @@
                         </div>
                     </div>
                     <div style="display: none" class="${properties.kcLabelWrapperClass!}">
-                        <input type="checkbox" id="termsAccepted" name="termsAccepted" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
-                            aria-invalid="<#if messagesPerField.existsError('termsAccepted')>true</#if>"
-                        />
                         <input type="text" id="terms_and_conditions" name="terms_and_conditions" class="${properties.kcTextInputClass!}"
                             aria-invalid="<#if messagesPerField.existsError('terms_and_conditions')>true</#if>"
                         />
@@ -120,13 +117,11 @@
                                 defaultSubmitButtonTitle = submitButton.title;
                                 updateRegisterButton(false);
                             }
-                            document.getElementById('terms-conditions').addEventListener('change', updateTerms);
+                            document.getElementById('termsAccepted').addEventListener('change', updateTerms);
                         });
                         
                         function updateTerms() {
-                            const termsCheckbox = document.getElementById('terms-conditions');
-                            const termsSecondaryCheckbox = document.getElementById('termsAccepted');
-                            termsSecondaryCheckbox.checked = termsCheckbox.checked;
+                            const termsCheckbox = document.getElementById('termsAccepted');
                             const termsTextInput = document.getElementById('terms_and_conditions');
                             termsTextInput.value = termsCheckbox.checked ? Math.floor(Date.now() / 1000).toString() : '';
                             updateRegisterButton(termsCheckbox.checked);

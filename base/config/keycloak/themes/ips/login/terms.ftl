@@ -12,8 +12,8 @@
       ${kcSanitize(msg("termsText"))?no_esc}
       <div class="${properties.kcFormButtonsClass!} p-0">
           <label class="btn-checkbox ${properties.kcButtonClass!}" style="width: 100%">
-              <input type="checkbox" id="terms-conditions" name="terms-conditions" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
-                  aria-invalid="<#if messagesPerField.existsError('terms-conditions')>true</#if>"
+              <input type="checkbox" id="termsAccepted" name="termsAccepted" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
+                  aria-invalid="<#if messagesPerField.existsError('termsAccepted')>true</#if>"
               />
               <i class="bi-square"></i>
               <i class="bi-check-square-fill"></i>
@@ -47,11 +47,11 @@
         defaultSubmitButtonTitle = submitButton.title;
         updateRegisterButton(false);
       }
-      document.getElementById('terms-conditions').addEventListener('change', updateTerms);
+      document.getElementById('termsAccepted').addEventListener('change', updateTerms);
     });
     
     function updateTerms() {
-      const termsCheckbox = document.getElementById('terms-conditions');
+      const termsCheckbox = document.getElementById('termsAccepted');
       updateRegisterButton(termsCheckbox.checked);
     };
   </script>
