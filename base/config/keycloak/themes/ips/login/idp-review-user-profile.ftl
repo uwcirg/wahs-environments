@@ -65,7 +65,7 @@
             <div class="${properties.kcFormGroupClass!}">
                 <div id="kc-form-options" class="${properties.kcFormOptionsClass!}">
                     <div class="${properties.kcFormOptionsWrapperClass!}">
-                      <span><a href="${url.loginRestartFlowUrl}">${kcSanitize(msg("backToLogin"))?no_esc}</a></span>
+                      <span><a href="${url.loginRestartFlowUrl}">${kcSanitize(msg("cancelRegistration"))?no_esc}</a></span>
                     </div>
                 </div>
 
