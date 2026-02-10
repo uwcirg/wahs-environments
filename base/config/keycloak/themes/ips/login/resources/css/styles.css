@@ -449,6 +449,10 @@ h1#kc-page-title {
   color: var(--pf-global--palette--black-800);
 }
 
+#kc-terms-text p + p {
+  margin-top: 1em;
+}
+
 #kc-terms-text ul {
   list-style: disc inside;
   padding-left: 1em;
