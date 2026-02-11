@@ -81,8 +81,8 @@
                     </div>
                     <div class="${properties.kcInputWrapperClass!}">
                         <div id="kc-terms-text">
-                            <#assign termsFile = realm.attributes.termsFile!"terms-text-default.html">
-                            <#include termsFile>
+                            <#assign termsFileName = properties.termsFileName!"terms-text-default.html">
+                            <#include termsFileName>
                             <div class="${properties.kcFormButtonsClass!} p-0">
                                 <label class="btn-checkbox ${properties.kcButtonClass!}" style="width: 100%">
                                     <input type="checkbox" id="termsAccepted" name="termsAccepted" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
