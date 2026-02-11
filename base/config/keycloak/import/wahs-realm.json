@@ -157,7 +157,6 @@
         "frontchannel.logout.url": "",
         "frontchannel.logout.session.required": "false",
         "post.logout.redirect.uris": "${KEYCLOAK_SHL_CREATOR_BASE}",
-        "termsFile": "${KEYCLOAK_TERMS_HTML_FILE_NAME}",
         "display.on.consent.screen": "false",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false",
