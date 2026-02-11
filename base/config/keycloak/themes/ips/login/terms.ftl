@@ -9,7 +9,8 @@
   <br>
   <form class="form-actions" action="${url.loginAction}" method="POST">
     <div id="kc-terms-text">
-      ${kcSanitize(msg("termsText"))?no_esc}
+      <#assign termsFile = realm.attributes.termsFile!"terms-text-default.html">
+      <#include termsFile>
       <div class="${properties.kcFormButtonsClass!} p-0">
           <label class="btn-checkbox ${properties.kcButtonClass!}" style="width: 100%">
               <input type="checkbox" id="termsAccepted" name="termsAccepted" value='${msg("acceptTerms")}' class="${properties.kcCheckboxInputClass!}"
