@@ -1,8 +1,15 @@
 services:
   shl-creator:
+    image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-latest}-dev
     environment:
       SERVER_NAME: ${BASE_DOMAIN}
     command: npm run dev
+
     volumes:
-      - ${SHL_CREATOR_CHECKOUT_DIR}/src:/opt/app/src
-      - ${SHL_CREATOR_CHECKOUT_DIR}/static:/opt/app/static
+      - ${SHL_CREATOR_CHECKOUT_DIR}:/opt/app
+      - node_modules:/opt/app/node_modules
+      - svelte-kit:/opt/app/.svelte-kit
+
+volumes:
+  node_modules:
+  svelte-kit:
