@@ -1,7 +1,7 @@
 services:
   shl-creator:
     # only need to change image tag for dev if node modules are updated
-    image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-latest}-dev
+    image: ghcr.io/uwcirg/shl-ips:${SHL_CREATOR_IMAGE_TAG:-latest}
     environment:
       SERVER_NAME: ${BASE_DOMAIN}
     command: npm run dev
