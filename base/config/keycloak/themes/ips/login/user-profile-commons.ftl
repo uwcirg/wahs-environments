@@ -138,7 +138,7 @@
 </#macro>
 
 <#macro selectTag attribute>
-  <select id="${attribute.name}" name="${attribute.name}" class="${properties.kcInputClass!}"
+  <select id="${attribute.name}" name="${attribute.name}"
     aria-invalid="<#if messagesPerField.existsError('${attribute.name}')>true</#if>"
     <#if attribute.readOnly>disabled</#if>
     <#if attribute.annotations.inputType=='multiselect'>multiple</#if>
