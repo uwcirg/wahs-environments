@@ -176,7 +176,9 @@ ul, p {
 .alert-error {
   color: #9b0202;
 }
+select,
 input[type="text"],
+input[type="date"],
 input[type="email"],
 input[type="password"] {
   display: block;
