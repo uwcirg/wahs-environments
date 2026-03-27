@@ -28,7 +28,7 @@
                     <label for="birthday" class="${properties.kcLabelClass!}">${msg("birthday")}</label>
                 </div>
                 <div class="${properties.kcInputWrapperClass!}">
-                    <input type="date" id="birthday" class="${properties.kcInputClass!}" name="birthday" value="${(register.formData.lastName!'')}" />
+                    <input type="date" id="birthday" class="${properties.kcInputClass!}" name="birthday" value="${(register.formData.birthday!'')}" />
                 </div>
             </div>
 
@@ -37,11 +37,11 @@
                     <label for="gender" class="${properties.kcLabelClass!}">${msg("gender")}</label>
                 </div>
                 <div class="${properties.kcInputWrapperClass!}">
-                    <select id="gender" name="gender" value="${(register.formData.lastName!'')}">
+                    <select id="gender" name="gender" value="${(register.formData.gender!'')}">
                         <option value=""></option>
-                        <option value="female">Female</option>
-                        <option value="male">Male</option>
-                        <option value="other">Other</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
             </div>
