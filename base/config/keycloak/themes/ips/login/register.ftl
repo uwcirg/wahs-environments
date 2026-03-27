@@ -23,6 +23,29 @@
                 </div>
             </div>
 
+            <div class="${messagesPerField.printIfExists('birthday',properties.kcFormGroupErrorClass!)}">
+                <div class="${properties.kcLabelWrapperClass!}">
+                    <label for="birthday" class="${properties.kcLabelClass!}">${msg("birthday")}</label>
+                </div>
+                <div class="${properties.kcInputWrapperClass!}">
+                    <input type="date" id="birthday" class="${properties.kcInputClass!}" name="birthday" value="${(register.formData.lastName!'')}" />
+                </div>
+            </div>
+
+            <div class="${messagesPerField.printIfExists('gender',properties.kcFormGroupErrorClass!)}">
+                <div class="${properties.kcLabelWrapperClass!}">
+                    <label for="gender" class="${properties.kcLabelClass!}">${msg("gender")}</label>
+                </div>
+                <div class="${properties.kcInputWrapperClass!}">
+                    <select id="gender" name="gender" value="${(register.formData.lastName!'')}">
+                        <option value=""></option>
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="${messagesPerField.printIfExists('email',properties.kcFormGroupErrorClass!)}">
                 <div class="${properties.kcLabelWrapperClass!}">
                     <label for="email" class="${properties.kcLabelClass!}">${msg("email")}</label>
