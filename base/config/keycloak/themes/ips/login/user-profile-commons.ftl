@@ -1,6 +1,11 @@
-<#macro userProfileFormFields>
+<#macro userProfileFormFields displayRequiredFields=false>
   <#assign currentGroup="">
   <div style="margin-bottom: 1rem">
+    <#if displayRequiredFields>
+    <div class="${properties.kcLabelWrapperClass!} subtitle">
+        <span class="${properties.kcRequiredClass!}">* ${msg("requiredFields")}</span>
+    </div>
+    </#if>
     <#list profile.attributes as attribute>
 
       <#if attribute.name=='locale' && realm.internationalizationEnabled && locale.currentLanguageTag?has_content>
@@ -42,7 +47,9 @@
         <div class="${properties.kcFormGroupClass!}" style="margin-bottom: 0">
           <div class="${properties.kcLabelWrapperClass!}">
             <label for="${attribute.name}" class="${properties.kcLabelClass!}">${advancedMsg(attribute.displayName!'')}</label>
-            <#if attribute.required>*</#if>
+            <#if attribute.required>
+              <span class="${properties.kcRequiredClass!}">* <span class="x-small-text">required</span></span>
+            </#if>
           </div>
           <div class="${properties.kcInputWrapperClass!}">
             <#if attribute.annotations.inputHelperTextBefore??>

@@ -17,6 +17,7 @@
   --text-default-color: #444;
   --default-body-font-size: 16px;
   --small-body-font-size: 14px;
+  --x-small-body-font-size: 0.75rem;
   --success-color: #008000;
   --success-hover-color: #006400;
 }
@@ -228,6 +229,17 @@ button.pf-m-success {
 }
 button.pf-m-success:hover {
   background-color: var(--success-hover-color);
+}
+
+button.show-password {
+  border: none;
+  padding: 0;
+  margin: 0;
+  height: 32px;
+  background: transparent;
+  position: relative;
+  right: 1.5em;
+  width: 0px;
 }
 
 .btn-checkbox {
@@ -511,6 +523,14 @@ h1#kc-page-title {
   font-size: var(--small-body-font-size);
   color: var(--label-color);
   margin: 0 0 1em 0.1em;
+}
+
+.required {
+  color: var(--pf-global--palette--red-100);
+}
+
+.x-small-text {
+  font-size: var(--x-small-body-font-size);
 }
 
 button.cancel-button {

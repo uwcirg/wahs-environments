@@ -6,13 +6,14 @@
     <#elseif section = "form">
         <form id="kc-register-form" class="${properties.kcFormClass!}" action="${url.registrationAction}" method="post">
         
-            <@userProfileCommons.userProfileFormFields; callback, attribute>
+            <@userProfileCommons.userProfileFormFields displayRequiredFields=true; callback, attribute>
                 <#if callback = "afterField">
                   <#-- render password fields just under the username or email (if used as username) -->
                 <#if passwordRequired?? && (attribute.name == 'username' || (attribute.name == 'email' && realm.registrationEmailAsUsername))>
                     <div class="${properties.kcFormGroupClass!}">
                         <div class="${properties.kcLabelWrapperClass!}">
-                            <label for="password" class="${properties.kcLabelClass!}">${msg("password")}</label> *
+                            <label for="password" class="${properties.kcLabelClass!}">${msg("password")}</label>
+                            <span class="${properties.kcRequiredClass!}">* <span class="x-small-text">required</span></span>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
                             <input type="password" id="password" class="${properties.kcInputClass!}" name="password"
@@ -31,7 +32,8 @@
                     <div class="${properties.kcFormGroupClass!}">
                         <div class="${properties.kcLabelWrapperClass!}">
                             <label for="password-confirm"
-                                   class="${properties.kcLabelClass!}">${msg("passwordConfirm")}</label> *
+                                   class="${properties.kcLabelClass!}">${msg("passwordConfirm")}</label>
+                                   <span class="${properties.kcRequiredClass!}">* <span class="x-small-text">required</span></span>
                         </div>
                         <div class="${properties.kcInputWrapperClass!}">
                             <input type="password" id="password-confirm" class="${properties.kcInputClass!}"
