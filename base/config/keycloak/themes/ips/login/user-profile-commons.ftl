@@ -44,7 +44,7 @@
         </#if>
 
         <#nested "beforeField" attribute>
-        <div class="${properties.kcFormGroupClass!}" style="margin-bottom: 0">
+        <div class="${properties.kcFormGroupClass!}">
           <div class="${properties.kcLabelWrapperClass!}">
             <label for="${attribute.name}" class="${properties.kcLabelClass!}">${advancedMsg(attribute.displayName!'')}</label>
             <#if attribute.required>
@@ -53,7 +53,7 @@
           </div>
           <div class="${properties.kcInputWrapperClass!}">
             <#if attribute.annotations.inputHelperTextBefore??>
-              <div class="${properties.kcInputHelperTextBeforeClass!}" id="form-help-text-before-${attribute.name}" aria-live="polite">${kcSanitize(advancedMsg(attribute.annotations.inputHelperTextBefore))?no_esc}</div>
+              <div class="${properties.kcInputHelperTextBeforeClass!} subtitle" id="form-help-text-before-${attribute.name}" aria-live="polite">${kcSanitize(advancedMsg(attribute.annotations.inputHelperTextBefore))?no_esc}</div>
             </#if>
             <@inputFieldByType attribute=attribute/>
             <#if messagesPerField.existsError('${attribute.name}')>
