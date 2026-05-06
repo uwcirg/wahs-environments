@@ -1,6 +1,11 @@
-<#macro userProfileFormFields>
+<#macro userProfileFormFields displayRequiredFields=false>
   <#assign currentGroup="">
   <div style="margin-bottom: 1rem">
+    <#if displayRequiredFields>
+    <div class="${properties.kcLabelWrapperClass!} subtitle">
+        <span class="${properties.kcRequiredClass!}">* ${msg("requiredFields")}</span>
+    </div>
+    </#if>
     <#list profile.attributes as attribute>
 
       <#if attribute.name=='locale' && realm.internationalizationEnabled && locale.currentLanguageTag?has_content>
@@ -39,14 +44,16 @@
         </#if>
 
         <#nested "beforeField" attribute>
-        <div class="${properties.kcFormGroupClass!}" style="margin-bottom: 0">
+        <div class="${properties.kcFormGroupClass!}">
           <div class="${properties.kcLabelWrapperClass!}">
             <label for="${attribute.name}" class="${properties.kcLabelClass!}">${advancedMsg(attribute.displayName!'')}</label>
-            <#if attribute.required>*</#if>
+            <#if attribute.required>
+              <span class="${properties.kcRequiredClass!}">* <span class="x-small-text">required</span></span>
+            </#if>
           </div>
           <div class="${properties.kcInputWrapperClass!}">
             <#if attribute.annotations.inputHelperTextBefore??>
-              <div class="${properties.kcInputHelperTextBeforeClass!}" id="form-help-text-before-${attribute.name}" aria-live="polite">${kcSanitize(advancedMsg(attribute.annotations.inputHelperTextBefore))?no_esc}</div>
+              <div class="${properties.kcInputHelperTextBeforeClass!} subtitle" id="form-help-text-before-${attribute.name}" aria-live="polite">${kcSanitize(advancedMsg(attribute.annotations.inputHelperTextBefore))?no_esc}</div>
             </#if>
             <@inputFieldByType attribute=attribute/>
             <#if messagesPerField.existsError('${attribute.name}')>
@@ -138,7 +145,7 @@
 </#macro>
 
 <#macro selectTag attribute>
-  <select id="${attribute.name}" name="${attribute.name}" class="${properties.kcInputClass!}"
+  <select id="${attribute.name}" name="${attribute.name}"
     aria-invalid="<#if messagesPerField.existsError('${attribute.name}')>true</#if>"
     <#if attribute.readOnly>disabled</#if>
     <#if attribute.annotations.inputType=='multiselect'>multiple</#if>
