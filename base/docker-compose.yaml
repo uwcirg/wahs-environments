@@ -5,6 +5,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    restart: unless-stopped
     volumes:
       - db-data:/var/lib/postgresql/data
       # mount db creation script in place for bootstrap
@@ -56,6 +57,7 @@ services:
       - 8080
     depends_on:
       - db
+    restart: unless-stopped
     networks:
       internal:
         aliases:
@@ -115,6 +117,8 @@ services:
       KEYCLOAK_SHL_CREATOR_BASE: https://${BASE_DOMAIN}
       KEYCLOAK_SHL_CREATOR_LOGOUT_REDIRECT_URL: https://${BASE_DOMAIN}
 
+    restart: unless-stopped
+
     volumes:
       - ./config/keycloak/import/:/opt/keycloak/data/import:ro
       - ./config/keycloak/themes/:/opt/keycloak/themes:ro
@@ -150,6 +154,7 @@ services:
       - traefik.http.middlewares.fhir-auth-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowMethods=HEAD,GET,OPTIONS,PATCH,POST,PUT,DELETE
       - traefik.http.middlewares.fhir-auth-${COMPOSE_PROJECT_NAME}-cors.headers.accessControlAllowHeaders=Authorization,Origin,Content-Type,Accept,Cache-Control
       - traefik.http.routers.fhir-auth-${COMPOSE_PROJECT_NAME}.middlewares=fhir-auth-${COMPOSE_PROJECT_NAME}-cors
+    restart: unless-stopped
     depends_on:
       - fhir
     networks:
@@ -180,6 +185,7 @@ services:
       - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
       - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.tls=true
       - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
+    restart: unless-stopped
     networks:
       - ingress
 
@@ -194,6 +200,7 @@ services:
       - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
       - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.tls=true
       - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
+    restart: unless-stopped
     volumes:
       - shl-server-data:/app/db
     networks:
