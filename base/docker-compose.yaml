@@ -41,6 +41,8 @@ services:
       hapi.fhir.implementationguides.ips_2_0_1.packageUrl: https://build.fhir.org/ig/HL7/fhir-ips/package.tgz
       hapi.fhir.implementationguides.ips_2_0_1.name: hl7.fhir.uv.ips
       hapi.fhir.implementationguides.ips_2_0_1.version: 2.0.1
+      # enable Clinical Reasoning module for SDC support ($extract)
+      hapi.fhir.cr.enabled: "true"
     volumes:
       # docker image does not contain any appropriate HTTP client
       # use busybox from host as `wget`
