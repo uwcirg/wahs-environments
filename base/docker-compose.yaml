@@ -33,8 +33,11 @@ services:
       hapi.fhir.use_apache_address_strategy_https: "true"
       # enable cascading delete
       hapi.fhir.allow_cascading_deletes: "true"
+
       # relax missing reference requirements to allow external data quirks
       hapi.fhir.enforce_referential_integrity_on_write: "false"
+      # hapi.fhir.auto_create_placeholder_reference_targets: "true"
+      # hapi.fhir.allow_external_references: "true"
 
       # enable IPS; use latest version
       hapi.fhir.ips_enabled: "true"
@@ -179,6 +182,7 @@ services:
       VITE_AUTH_CHECK_SESSION_IFRAME: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/login-status-iframe.html
       VITE_LOG_URL: https://shl-server.${BASE_DOMAIN}/api/log
       VITE_SYSTEM_URL: https://${BASE_DOMAIN}
+      VITE_DEMO_WARNING: true
 
       REDIRECT_URI: https://${BASE_DOMAIN}/data
     labels:
