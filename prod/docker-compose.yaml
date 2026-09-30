@@ -40,6 +40,10 @@ services:
     extends:
       file: ../base/docker-compose.yaml
       service: shl-server
+    environment:
+      CORS_ALLOWED_ORIGINS: https://${BASE_DOMAIN}
+    env_file:
+      shl-server.env
 
 volumes:
   db-data: {}
