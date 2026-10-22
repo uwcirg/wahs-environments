@@ -200,6 +200,7 @@ services:
     environment:
       PUBLIC_URL: https://shl-server.${BASE_DOMAIN}
       JWKS_URL: https://keycloak.${BASE_DOMAIN}/realms/wahs/protocol/openid-connect/certs
+      JWT_ISSUER: https://keycloak.${BASE_DOMAIN}/realms/wahs
     labels:
       - traefik.enable=true
       - traefik.http.routers.shl-server-${COMPOSE_PROJECT_NAME}.rule=Host(`shl-server.${BASE_DOMAIN}`)
